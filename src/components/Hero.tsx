@@ -64,7 +64,7 @@ function useTypingEffect(
 
 const socialLinks = [
   {
-    href: "https://github.com/YOUR_GITHUB",
+    href: "https://github.com/vjkarthik98",
     icon: Github,
     label: "GitHub",
   },

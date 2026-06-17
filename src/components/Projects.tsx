@@ -165,7 +165,7 @@ export default function Projects() {
               {/* Links */}
               <div className="flex items-center gap-2 shrink-0">
                 <motion.a
-                  href="https://github.com/YOUR_GITHUB/multimodal-rag"
+                  href="https://github.com/vjkarthik98/multimodal-rag"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-2 px-4 py-2 rounded-xl border border-[var(--border-color)] bg-[var(--bg-primary)] text-sm text-[var(--text-secondary)] hover:text-[var(--accent)] hover:border-[var(--accent)] transition-all font-medium"

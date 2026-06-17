@@ -16,7 +16,7 @@ const links = [
     icon: Github,
     label: "GitHub",
     value: "github.com/YOUR_GITHUB",
-    href: "https://github.com/YOUR_GITHUB",
+    href: "https://github.com/vjkarthik98",
     color: "from-gray-500 to-gray-700",
     bgColor: "bg-gray-500/10 border-gray-500/30 hover:border-gray-400",
   },

@@ -61,16 +61,15 @@ const resumeSections = [
       { name: "IBM Generative AI Engineering Professional Certificate", sub: "Coursera" },
       { name: "MLOps Specialization", sub: "Duke University · Coursera" },
       { name: "Responsible AI for Developers", sub: "Google Cloud · Coursera" },
-      { name: "Mathematics for Generative AI", sub: "Udemy · Krish Naik" },
-      { name: "Data Structures and Algorithms", sub: "Udemy · Elshad Karimov" },
+
     ],
   },
 ];
 
 const techSkills = [
   "Python", "PyTorch", "TensorFlow", "Hugging Face", "LangChain", "LlamaIndex",
-  "AWS Bedrock", "AWS SageMaker", "Docker", "MLflow", "GitHub Actions",
-  "RAG Pipelines", "LLM Fine-Tuning", "Responsible AI",
+  "Docker", "MLflow", "GitHub Actions",
+  "RAG Pipelines", "Responsible AI",
   "FastAPI", "Qdrant", "Pandas", "NumPy", "Git",
 ];
 

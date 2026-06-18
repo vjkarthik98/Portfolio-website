@@ -31,24 +31,6 @@ const certifications = [
     tags: ["Responsible AI", "Ethics", "Bias Mitigation"],
     link: "#",
   },
-  {
-    title: "Mathematics for Generative AI",
-    issuer: "Udemy · Krish Naik",
-    icon: "📐",
-    color: "from-purple-600 to-pink-700",
-    badgeColor: "bg-purple-500/10 text-purple-400 border-purple-500/30",
-    tags: ["Linear Algebra", "Calculus", "Statistics"],
-    link: "#",
-  },
-  {
-    title: "Data Structures and Algorithms",
-    issuer: "Udemy · Elshad Karimov",
-    icon: "⚙️",
-    color: "from-amber-600 to-orange-700",
-    badgeColor: "bg-amber-500/10 text-amber-400 border-amber-500/30",
-    tags: ["DSA", "Problem Solving", "Python"],
-    link: "#",
-  },
 ];
 
 export default function Certifications() {
@@ -131,23 +113,6 @@ export default function Certifications() {
             </motion.div>
           ))}
 
-          {/* Professional Development card */}
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.5, duration: 0.5 }}
-            className="rounded-2xl border border-dashed border-indigo-500/40 bg-indigo-500/5 p-6 flex flex-col justify-center sm:col-span-2 lg:col-span-1"
-          >
-            <div className="text-3xl mb-4">🚀</div>
-            <h3 className="font-semibold text-[var(--text-primary)] mb-2">
-              Independent AI Engineering
-            </h3>
-            <p className="text-sm text-[var(--text-secondary)] leading-relaxed">
-              June 2025 – Present. Dedicated full-time focus to mastering the modern AI stack —
-              culminating in enterprise-grade certifications and production-ready LLM pipelines.
-            </p>
-          </motion.div>
         </div>
       </div>
     </section>

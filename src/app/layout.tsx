@@ -5,7 +5,7 @@ import "./globals.css";
 export const metadata: Metadata = {
   title: "Vijaya Karthik | Generative AI Engineer",
   description:
-    "Portfolio of Vijaya Karthik — Generative AI Engineer specializing in RAG pipelines, LLM fine-tuning, and MLOps.",
+    "Portfolio of Vijaya Karthik — Generative AI Engineer specializing in RAG pipelines, agentic systems, and MLOps.",
   keywords: [
     "Generative AI",
     "RAG",
@@ -19,7 +19,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Vijaya Karthik | Generative AI Engineer",
     description:
-      "Generative AI Engineer specializing in RAG pipelines, LLM fine-tuning, and production AI systems.",
+      "Generative AI Engineer specializing in RAG pipelines, agentic systems, and production AI systems.",
     type: "website",
   },
 };

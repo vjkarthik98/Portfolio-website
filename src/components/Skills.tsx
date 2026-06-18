@@ -27,8 +27,6 @@ const skillCategories = [
     color: "border-cyan-500/40 bg-cyan-500/5",
     accent: "text-cyan-400",
     skills: [
-      "AWS Bedrock",
-      "AWS SageMaker",
       "Docker",
       "MLflow",
       "GitHub Actions",
@@ -40,7 +38,6 @@ const skillCategories = [
     accent: "text-emerald-400",
     skills: [
       "RAG Pipelines",
-      "LLM Fine-Tuning",
       "Responsible AI",
       "Data Structures & Algorithms",
       "Agentic Systems",

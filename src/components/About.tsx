@@ -9,7 +9,7 @@ const highlights = [
   {
     icon: Brain,
     title: "Generative AI",
-    desc: "RAG pipelines, LLM fine-tuning & agentic systems",
+    desc: "RAG pipelines & agentic systems",
     color: "from-indigo-500 to-purple-500",
   },
   {

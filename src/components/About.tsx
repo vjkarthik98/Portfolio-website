@@ -3,7 +3,7 @@
 import { motion } from "framer-motion";
 import { useInView } from "framer-motion";
 import { useRef } from "react";
-import { Brain, Code2, Cpu, FlaskConical } from "lucide-react";
+import { Brain, Cpu, FlaskConical } from "lucide-react";
 
 const highlights = [
   {
@@ -18,13 +18,7 @@ const highlights = [
     desc: "Docker, MLflow, GitHub Actions & AWS deployment",
     color: "from-cyan-500 to-blue-500",
   },
-  {
-    icon: Code2,
-    title: "Engineering",
-    desc: "Production-grade modular architectures with FastAPI",
-    color: "from-purple-500 to-pink-500",
-  },
-  {
+{
     icon: FlaskConical,
     title: "Responsible AI",
     desc: "Ethical frameworks and evaluation pipelines",
@@ -128,7 +122,7 @@ export default function About() {
             {/* Stats */}
             <div className="grid grid-cols-3 gap-4 pt-4">
               {[
-                { value: "5+", label: "Certifications" },
+                { value: "3", label: "Certifications" },
                 { value: "85–90%", label: "RAG Accuracy" },
                 { value: "1K+", label: "Doc Chunks" },
               ].map(({ value, label }) => (

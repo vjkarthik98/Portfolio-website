@@ -22,6 +22,8 @@ const techStack = [
   { name: "Hugging Face", color: "bg-yellow-500/15 text-yellow-400 border-yellow-500/30" },
   { name: "FastAPI", color: "bg-emerald-500/15 text-emerald-400 border-emerald-500/30" },
   { name: "Docker", color: "bg-cyan-500/15 text-cyan-400 border-cyan-500/30" },
+  { name: "MongoDB Atlas", color: "bg-green-500/15 text-green-400 border-green-500/30" },
+  { name: "AWS", color: "bg-orange-500/15 text-orange-400 border-orange-500/30" },
 ];
 
 const highlights = [
@@ -147,7 +149,7 @@ export default function Projects() {
                 <div className="flex items-center gap-2 mb-3">
                   <span className="flex items-center gap-1.5 text-xs font-mono text-[var(--text-secondary)]">
                     <Calendar size={12} />
-                    March 2026
+                    March 2026 – June 2026
                   </span>
                   <span className="w-1 h-1 rounded-full bg-[var(--text-secondary)]" />
                   <span className="flex items-center gap-1.5 text-xs font-mono text-emerald-400">
@@ -158,14 +160,14 @@ export default function Projects() {
                 <h3 className="text-xl sm:text-2xl font-bold text-[var(--text-primary)] leading-tight">
                   Multimodal AGENTIC RAG{" "}
                   <br className="hidden sm:block" />
-                  Integrated Knowledge AI Assistant
+                  Integrated Knowledge AI Assistant (MAGIK)
                 </h3>
               </div>
 
               {/* Links */}
               <div className="flex items-center gap-2 shrink-0">
                 <motion.a
-                  href="https://github.com/vjkarthik98/multimodal-rag"
+                  href="https://github.com/vjkarthik98/multimodal-rag-assistant"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-2 px-4 py-2 rounded-xl border border-[var(--border-color)] bg-[var(--bg-primary)] text-sm text-[var(--text-secondary)] hover:text-[var(--accent)] hover:border-[var(--accent)] transition-all font-medium"

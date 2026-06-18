@@ -27,6 +27,8 @@ const skillCategories = [
     color: "border-cyan-500/40 bg-cyan-500/5",
     accent: "text-cyan-400",
     skills: [
+      "AWS",
+      "MongoDB Atlas",
       "Docker",
       "MLflow",
       "GitHub Actions",
@@ -102,32 +104,6 @@ export default function Skills() {
             </motion.div>
           ))}
 
-          {/* Education card */}
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.5, duration: 0.5 }}
-            className="p-6 rounded-2xl border border-rose-500/40 bg-rose-500/5 sm:col-span-2 lg:col-span-1"
-          >
-            <h3 className="font-semibold text-sm font-mono mb-4 text-rose-400 tracking-wider uppercase">
-              Analytical Foundation
-            </h3>
-            <div className="space-y-3">
-              <div className="flex flex-col">
-                <span className="text-sm font-medium text-[var(--text-primary)]">MA English</span>
-                <span className="text-xs text-[var(--text-secondary)]">Bishop Heber College · 2021</span>
-              </div>
-              <div className="flex flex-col">
-                <span className="text-sm font-medium text-[var(--text-primary)]">UPSC Preparation</span>
-                <span className="text-xs text-[var(--text-secondary)]">Advanced research & synthesis · 2021–2024</span>
-              </div>
-              <p className="text-xs text-[var(--text-secondary)] leading-relaxed mt-2 border-t border-[var(--border-color)] pt-3">
-                Rigorous analytical training that sharpens complex information synthesis
-                and structured problem-solving.
-              </p>
-            </div>
-          </motion.div>
         </div>
       </div>
     </section>

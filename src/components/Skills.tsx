@@ -20,6 +20,8 @@ const skillCategories = [
       "LangChain",
       "LlamaIndex",
       "Sentence Transformers",
+      "Prompt Engineering",
+      "NLP",
     ],
   },
   {
@@ -28,10 +30,13 @@ const skillCategories = [
     accent: "text-cyan-400",
     skills: [
       "AWS",
+      "AWS SageMaker",
       "MongoDB Atlas",
       "Docker",
       "MLflow",
       "GitHub Actions",
+      "Prometheus",
+      "OpenTelemetry",
     ],
   },
   {
@@ -49,7 +54,7 @@ const skillCategories = [
     category: "Developer Tools",
     color: "border-amber-500/40 bg-amber-500/5",
     accent: "text-amber-400",
-    skills: ["FastAPI", "Qdrant", "Pandas", "NumPy", "Git", "PyMuPDF", "OpenCV", "Whisper"],
+    skills: ["FastAPI", "Qdrant", "Redis", "BM25", "Pandas", "NumPy", "Git", "PyMuPDF", "OpenCV", "Whisper"],
   },
 ];
 

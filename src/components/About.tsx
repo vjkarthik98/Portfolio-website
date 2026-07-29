@@ -101,7 +101,7 @@ export default function About() {
                 highly disciplined Generative AI Engineer
               </span>{" "}
               with a robust foundation in machine learning operations, responsible AI
-              frameworks, and advanced mathematics.
+              frameworks, and production LLM systems.
             </p>
             <p className="text-[var(--text-secondary)] leading-relaxed">
               I combine rigorous algorithmic problem-solving with specialized,
@@ -123,8 +123,8 @@ export default function About() {
             <div className="grid grid-cols-3 gap-4 pt-4">
               {[
                 { value: "3", label: "Certifications" },
-                { value: "85–90%", label: "RAG Accuracy" },
-                { value: "1K+", label: "Doc Chunks" },
+                { value: "0.917", label: "Routing Accuracy" },
+                { value: "7", label: "Data Modalities" },
               ].map(({ value, label }) => (
                 <div
                   key={label}

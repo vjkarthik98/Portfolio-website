@@ -18,7 +18,7 @@ const timeline = [
     dotColor: "bg-indigo-400",
     label: "Professional Development",
     name: "UPSC Examination Preparation",
-    sub: "Advanced research & analytical synthesis · 2021 – 2024",
+    sub: "Advanced research & analytical synthesis · June 2021 – May 2025",
   },
   {
     icon: Briefcase,

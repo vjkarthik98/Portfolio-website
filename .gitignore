@@ -34,3 +34,7 @@ Thumbs.db
 .claude
 CLAUDE.md
 .vscode
+
+# Sample dataset files (hosted on Google Drive instead — too large for git)
+/public/datasets/*
+!/public/datasets/.gitkeep

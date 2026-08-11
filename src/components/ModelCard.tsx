@@ -11,6 +11,8 @@ import {
   ShieldCheck,
   AlertTriangle,
   Target,
+  Database,
+  ExternalLink,
 } from "lucide-react";
 
 const modelDetails = [
@@ -29,6 +31,16 @@ const modalities = [
   { icon: Image, label: "Images", color: "bg-purple-500/20 text-purple-400 border-purple-500/30" },
   { icon: Mic, label: "Audio", color: "bg-rose-500/20 text-rose-400 border-rose-500/30" },
   { icon: Video, label: "Video", color: "bg-amber-500/20 text-amber-400 border-amber-500/30" },
+];
+
+const sampleDatasets = [
+  { icon: Type, modality: "Text", file: "fomc_dec2024.txt", url: "https://drive.google.com/file/d/181j30UcDvNRMGgmszXdOYO37UC1zLgA5/view?usp=sharing", color: "bg-indigo-500/20 text-indigo-400 border-indigo-500/30" },
+  { icon: FileText, modality: "PDF", file: "apple_10k.pdf", url: "https://drive.google.com/file/d/18Fd9xpShWO0ImpI3DXYRf7d4Q9tZRyWL/view?usp=sharing", color: "bg-cyan-500/20 text-cyan-400 border-cyan-500/30" },
+  { icon: File, modality: "DOCX", file: "apple_investment_research_report.docx", url: "https://docs.google.com/document/d/1H18YoI6_bZfQsDsUnxgWg5SZ9WjO_1HP/edit?usp=sharing&ouid=104916607768697811729&rtpof=true&sd=true", color: "bg-blue-500/20 text-blue-400 border-blue-500/30" },
+  { icon: FileSpreadsheet, modality: "XLSX", file: "ctryprem.xlsx", url: "https://docs.google.com/spreadsheets/d/1pdisvz4LdNwebyk8t-uiYocfY26vyRzc/edit?usp=sharing&ouid=104916607768697811729&rtpof=true&sd=true", color: "bg-emerald-500/20 text-emerald-400 border-emerald-500/30" },
+  { icon: Image, modality: "Image", file: "aapl-20240928_g2.jpg", url: "https://drive.google.com/file/d/1wZWFltwfRnEAG7NonnucSbXXgnzRoXCh/view?usp=sharing", color: "bg-purple-500/20 text-purple-400 border-purple-500/30" },
+  { icon: Mic, modality: "Audio", file: "FOMC Press Conference September 18, 2024.mp3", url: "https://drive.google.com/file/d/1dJVngEUd30NmaODmgEfZBGQhaRLKc_vq/view?usp=sharing", color: "bg-rose-500/20 text-rose-400 border-rose-500/30" },
+  { icon: Video, modality: "Video", file: "Q4 2025 Earnings Call.mp4", url: "https://drive.google.com/file/d/1thyLZz_ziN8TI8mm2xm1oQwfK8wICNek/view?usp=sharing", color: "bg-amber-500/20 text-amber-400 border-amber-500/30" },
 ];
 
 const limitations = [
@@ -106,6 +118,38 @@ export default function ModelCard() {
             </div>
           ))}
         </div>
+      </div>
+
+      {/* Sample Datasets */}
+      <div className="px-6 py-4 border-b border-[var(--border-color)]">
+        <p className="text-xs font-mono font-medium text-[var(--text-secondary)] mb-3 uppercase tracking-widest flex items-center gap-2">
+          <Database size={12} className="text-cyan-400 shrink-0" />
+          <span className="min-w-0">
+            Sample Datasets <span className="text-[var(--text-secondary)]/60 normal-case">· real-world test data, 7 modalities</span>
+          </span>
+        </p>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+          {sampleDatasets.map(({ icon: Icon, modality, file, url, color }) => (
+            <a
+              key={file}
+              href={url}
+              target="_blank"
+              rel="noopener noreferrer"
+              title={file}
+              className={`group flex items-center gap-2.5 px-3 py-2 rounded-lg border text-xs font-medium transition-colors min-w-0 hover:brightness-110 ${color}`}
+            >
+              <Icon size={13} className="shrink-0" />
+              <span className="flex flex-col min-w-0 leading-tight">
+                <span className="truncate">{file}</span>
+                <span className="text-[10px] font-mono opacity-60 uppercase tracking-wide">{modality}</span>
+              </span>
+              <ExternalLink size={13} className="shrink-0 ml-auto opacity-60 group-hover:opacity-100 transition-opacity" />
+            </a>
+          ))}
+        </div>
+        <p className="text-[11px] text-[var(--text-secondary)]/60 mt-2 italic leading-relaxed">
+          Hosted on Google Drive — each card opens its file directly in a new tab.
+        </p>
       </div>
 
       {/* Intended Use */}

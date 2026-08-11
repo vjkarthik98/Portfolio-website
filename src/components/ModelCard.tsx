@@ -47,23 +47,23 @@ export default function ModelCard() {
   return (
     <div className="rounded-2xl border border-[var(--border-color)] bg-[var(--bg-card)] overflow-hidden">
       {/* HuggingFace-style header */}
-      <div className="px-6 py-4 border-b border-[var(--border-color)] bg-gradient-to-r from-indigo-500/5 to-cyan-500/5 flex items-center justify-between">
-        <div className="flex items-center gap-3">
-          <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-yellow-400 to-orange-400 flex items-center justify-center text-white font-bold text-xs shadow-md">
+      <div className="px-6 py-4 border-b border-[var(--border-color)] bg-gradient-to-r from-indigo-500/5 to-cyan-500/5 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+        <div className="flex items-center gap-3 min-w-0">
+          <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-yellow-400 to-orange-400 flex items-center justify-center text-white font-bold text-xs shadow-md shrink-0">
             🤗
           </div>
-          <div>
+          <div className="min-w-0">
             <p className="text-xs text-[var(--text-secondary)] font-mono">Model Card</p>
-            <p className="text-sm font-mono font-semibold text-[var(--text-primary)]">
+            <p className="text-sm font-mono font-semibold text-[var(--text-primary)] break-all">
               vijaya-karthik/<span className="text-indigo-400">multimodal-agentic-rag</span>
             </p>
           </div>
         </div>
-        <div className="flex flex-col items-end gap-1">
-          <span className="px-2 py-1 text-xs rounded-full bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 font-mono">
+        <div className="flex flex-row flex-wrap sm:flex-col items-start sm:items-end gap-1.5 sm:gap-1 shrink-0">
+          <span className="px-2 py-1 text-xs rounded-full bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 font-mono whitespace-nowrap">
             production-ready
           </span>
-          <span className="px-2 py-1 text-xs rounded-full bg-indigo-500/15 text-indigo-400 border border-indigo-500/30 font-mono">
+          <span className="px-2 py-1 text-xs rounded-full bg-indigo-500/15 text-indigo-400 border border-indigo-500/30 font-mono whitespace-nowrap">
             open-weights
           </span>
         </div>
@@ -76,15 +76,15 @@ export default function ModelCard() {
         </p>
         <dl className="space-y-2.5">
           {modelDetails.map(({ label, value }) => (
-            <div key={label} className="flex flex-col sm:flex-row sm:gap-3">
+            <div key={label} className="flex flex-col sm:flex-row sm:gap-3 min-w-0">
               <dt className="text-xs font-mono font-semibold text-indigo-400 shrink-0 w-20">{label}</dt>
-              <dd className="text-xs text-[var(--text-secondary)] leading-relaxed">{value}</dd>
+              <dd className="text-xs text-[var(--text-secondary)] leading-relaxed min-w-0 break-words">{value}</dd>
             </div>
           ))}
-          <div className="flex flex-col sm:flex-row sm:gap-3">
+          <div className="flex flex-col sm:flex-row sm:gap-3 min-w-0">
             <dt className="text-xs font-mono font-semibold text-indigo-400 shrink-0 w-20">Repo</dt>
-            <dd>
-              <code className="model-card-tag">vijaya-karthik/multimodal-agentic-rag</code>
+            <dd className="min-w-0">
+              <code className="model-card-tag break-all">vijaya-karthik/multimodal-agentic-rag</code>
             </dd>
           </div>
         </dl>

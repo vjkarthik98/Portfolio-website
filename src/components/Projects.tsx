@@ -176,9 +176,9 @@ function EvaluationResults() {
         including where audio and video still trail.
       </p>
 
-      <div className="grid lg:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Retrieval & Generation Quality */}
-        <div>
+        <div className="min-w-0">
           <p className="text-xs font-mono font-medium text-[var(--text-secondary)] mb-3 uppercase tracking-widest">
             Retrieval &amp; Generation Quality
             <span className="text-[var(--text-secondary)]/60"> · CI-gated thresholds</span>
@@ -211,7 +211,7 @@ function EvaluationResults() {
         </div>
 
         {/* Per-Modality QA Benchmarks */}
-        <div>
+        <div className="min-w-0">
           <p className="text-xs font-mono font-medium text-[var(--text-secondary)] mb-3 uppercase tracking-widest">
             Per-Modality QA Benchmarks
             <span className="text-[var(--text-secondary)]/60"> · manual audits /100</span>
@@ -285,14 +285,14 @@ export default function Projects() {
           {/* Project header */}
           <div className="px-6 sm:px-8 pt-8 pb-6 border-b border-[var(--border-color)]">
             <div className="flex flex-wrap items-start justify-between gap-4">
-              <div className="max-w-2xl">
-                <div className="flex items-center gap-2 mb-3">
-                  <span className="flex items-center gap-1.5 text-xs font-mono text-[var(--text-secondary)]">
+              <div className="max-w-2xl min-w-0">
+                <div className="flex flex-wrap items-center gap-x-2 gap-y-1 mb-3">
+                  <span className="flex items-center gap-1.5 text-xs font-mono text-[var(--text-secondary)] whitespace-nowrap">
                     <Calendar size={12} />
                     March 2026 – July 2026
                   </span>
-                  <span className="w-1 h-1 rounded-full bg-[var(--text-secondary)]" />
-                  <span className="flex items-center gap-1.5 text-xs font-mono text-emerald-400">
+                  <span className="w-1 h-1 rounded-full bg-[var(--text-secondary)] shrink-0" />
+                  <span className="flex items-center gap-1.5 text-xs font-mono text-emerald-400 whitespace-nowrap">
                     <Tag size={12} />
                     Agentic RAG / Multimodal / Finance
                   </span>
@@ -350,9 +350,9 @@ export default function Projects() {
           </div>
 
           {/* Main content — Video + Model Card side by side on lg */}
-          <div className="grid lg:grid-cols-2 gap-0 divide-y lg:divide-y-0 lg:divide-x divide-[var(--border-color)]">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-0 divide-y lg:divide-y-0 lg:divide-x divide-[var(--border-color)]">
             {/* Left: Video + highlights */}
-            <div className="p-6 sm:p-8 space-y-6">
+            <div className="p-6 sm:p-8 space-y-6 min-w-0">
               <VideoPlayer />
 
               {/* Bullet highlights */}
@@ -379,7 +379,7 @@ export default function Projects() {
             </div>
 
             {/* Right: Model Card */}
-            <div className="p-6 sm:p-8">
+            <div className="p-6 sm:p-8 min-w-0">
               <h4 className="text-sm font-semibold text-[var(--text-primary)] uppercase tracking-widest font-mono mb-5">
                 Model Card
               </h4>

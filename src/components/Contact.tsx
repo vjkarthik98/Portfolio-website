@@ -1,11 +1,11 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Send } from "lucide-react";
+import { Send, Github, Linkedin, MapPin } from "lucide-react";
 
 export default function Contact() {
   return (
-    <section id="contact" className="section-padding bg-[var(--bg-secondary)]">
+    <section id="contact" className="section-padding bg-[var(--bg-primary)]">
       <div className="max-w-4xl mx-auto">
         {/* Header */}
         <motion.div
@@ -53,15 +53,46 @@ export default function Contact() {
               Actively seeking full-time positions and collaboration opportunities
               in AI Engineering, MLOps, and LLM-driven product development.
             </p>
-            <motion.a
-              href="mailto:karthikvj398@gmail.com"
-              className="inline-flex items-center gap-2 px-8 py-3.5 rounded-xl bg-gradient-to-r from-indigo-600 to-cyan-500 text-white font-semibold shadow-lg hover:shadow-indigo-500/30 transition-all"
-              whileHover={{ scale: 1.05, y: -2 }}
-              whileTap={{ scale: 0.97 }}
-            >
-              <Send size={16} />
-              Send an Email
-            </motion.a>
+            <div className="flex flex-wrap items-center justify-center gap-3">
+              <motion.a
+                href="mailto:karthikvj398@gmail.com"
+                className="inline-flex items-center gap-2 px-8 py-3.5 rounded-xl bg-gradient-to-r from-indigo-600 to-cyan-500 text-white font-semibold shadow-lg hover:shadow-indigo-500/30 transition-all"
+                whileHover={{ scale: 1.05, y: -2 }}
+                whileTap={{ scale: 0.97 }}
+              >
+                <Send size={16} />
+                Send an Email
+              </motion.a>
+
+              <motion.a
+                href="https://www.linkedin.com/in/vijaya-karthik-517353357"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 px-6 py-3.5 rounded-xl border border-[var(--border-color)] bg-[var(--bg-card)] text-[var(--text-primary)] font-semibold hover:border-[var(--accent)] hover:text-[var(--accent)] transition-all"
+                whileHover={{ scale: 1.05, y: -2 }}
+                whileTap={{ scale: 0.97 }}
+              >
+                <Linkedin size={16} />
+                LinkedIn
+              </motion.a>
+
+              <motion.a
+                href="https://github.com/vjkarthik98"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 px-6 py-3.5 rounded-xl border border-[var(--border-color)] bg-[var(--bg-card)] text-[var(--text-primary)] font-semibold hover:border-[var(--accent)] hover:text-[var(--accent)] transition-all"
+                whileHover={{ scale: 1.05, y: -2 }}
+                whileTap={{ scale: 0.97 }}
+              >
+                <Github size={16} />
+                GitHub
+              </motion.a>
+            </div>
+
+            <p className="flex items-center justify-center gap-1.5 text-sm text-[var(--text-secondary)] mt-6">
+              <MapPin size={14} />
+              India · open to remote and relocation
+            </p>
           </div>
         </motion.div>
 

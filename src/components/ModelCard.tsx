@@ -15,6 +15,10 @@ import {
   ExternalLink,
 } from "lucide-react";
 
+// Single source of truth for the repo link — also used by Projects.tsx's GitHub button.
+export const REPO_URL =
+  "https://github.com/vjkarthik98/MULTIMODAL-AGENTIC-RAG-INTEGRATED-KNOWLEDGE-AI-ASSISTANT";
+
 const modelDetails = [
   { label: "System", value: "Retrieval-augmented generation, agentic multi-modal, finance-domain" },
   { label: "Core LLM", value: "Mistral-7B-Instruct (GGUF, Q4_K_M quantized) via llama.cpp" },
@@ -66,14 +70,22 @@ export default function ModelCard() {
           </div>
           <div className="min-w-0">
             <p className="text-xs text-[var(--text-secondary)] font-mono">Model Card</p>
-            <p className="text-sm font-mono font-semibold text-[var(--text-primary)] break-all">
-              vijaya-karthik/<span className="text-indigo-400">multimodal-agentic-rag</span>
-            </p>
+            <a
+              href={REPO_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-sm font-mono font-semibold text-[var(--text-primary)] break-all hover:text-indigo-400 transition-colors"
+            >
+              vjkarthik98/
+              <span className="text-indigo-400">
+                MULTIMODAL-AGENTIC-RAG-INTEGRATED-KNOWLEDGE-AI-ASSISTANT
+              </span>
+            </a>
           </div>
         </div>
         <div className="flex flex-row flex-wrap sm:flex-col items-start sm:items-end gap-1.5 sm:gap-1 shrink-0">
           <span className="px-2 py-1 text-xs rounded-full bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 font-mono whitespace-nowrap">
-            production-ready
+            self-hosted
           </span>
           <span className="px-2 py-1 text-xs rounded-full bg-indigo-500/15 text-indigo-400 border border-indigo-500/30 font-mono whitespace-nowrap">
             open-weights
@@ -93,12 +105,6 @@ export default function ModelCard() {
               <dd className="text-xs text-[var(--text-secondary)] leading-relaxed min-w-0 break-words">{value}</dd>
             </div>
           ))}
-          <div className="flex flex-col sm:flex-row sm:gap-3 min-w-0">
-            <dt className="text-xs font-mono font-semibold text-indigo-400 shrink-0 w-20">Repo</dt>
-            <dd className="min-w-0">
-              <code className="model-card-tag break-all">vijaya-karthik/multimodal-agentic-rag</code>
-            </dd>
-          </div>
         </dl>
       </div>
 

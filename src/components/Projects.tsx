@@ -15,8 +15,11 @@ import {
   Package,
   Cloud,
   Lock,
+  GitCommitHorizontal,
+  Scale,
+  FileCode,
 } from "lucide-react";
-import ModelCard from "./ModelCard";
+import ModelCard, { REPO_URL } from "./ModelCard";
 
 const tagline =
   "A fully open-source, self-hosted agentic RAG system spanning 7 data modalities for finance-domain Q&A — every model runs on open weights (no proprietary API dependency), deployed on an AWS GPU with enforced tenant isolation, guardrails, and a CI-gated eval harness.";
@@ -25,6 +28,12 @@ const featureBadges = [
   { icon: Package, text: "100% Open-Source Models" },
   { icon: Cloud, text: "Self-Hosted on AWS · A10G GPU" },
   { icon: Lock, text: "No Proprietary API Dependency" },
+];
+
+const repoSignals = [
+  { icon: GitCommitHorizontal, text: "201 commits" },
+  { icon: Scale, text: "MIT licensed" },
+  { icon: FileCode, text: "Docker · Makefile · CI" },
 ];
 
 const techStack = [
@@ -115,26 +124,33 @@ function VideoPlayer() {
     <div className="relative rounded-2xl overflow-hidden bg-[#050810] border border-[var(--border-color)] group aspect-video">
       <video
         ref={videoRef}
-        className="w-full h-full object-cover"
+        className="w-full h-full object-contain bg-[#050810]"
         poster="/demo-poster.jpg"
         onEnded={() => setPlaying(false)}
         onPlay={() => setPlaying(true)}
         onPause={() => setPlaying(false)}
+        preload="metadata"
         playsInline
       >
         <source src="/demo.mp4" type="video/mp4" />
+        Your browser doesn&apos;t support embedded video.{" "}
+        <a href="/demo.mp4" className="underline">Download the demo</a> instead.
       </video>
 
-      {/* Placeholder shown when no video loaded */}
-      <div className="absolute inset-0 flex flex-col items-center justify-center bg-gradient-to-br from-[#0d1226] via-[#111827] to-[#0d1226] pointer-events-none">
-        <div className="w-16 h-16 rounded-full bg-gradient-to-br from-indigo-600 to-cyan-500 flex items-center justify-center mb-4 shadow-lg shadow-indigo-500/30 group-hover:scale-110 transition-transform">
-          <Play size={24} className="text-white ml-1" />
-        </div>
-        <p className="text-[var(--text-secondary)] text-sm">Demo Video</p>
-        <p className="text-xs text-[var(--text-secondary)]/60 mt-1">
-          Add <code className="font-mono text-indigo-400">/public/demo.mp4</code> to display
-        </p>
-      </div>
+      {/* Click-to-play overlay — hidden once playback starts */}
+      {!playing && (
+        <button
+          onClick={togglePlay}
+          aria-label="Play demo video"
+          className="absolute inset-0 flex flex-col items-center justify-center bg-black/40 hover:bg-black/30 transition-colors"
+        >
+          <span className="w-16 h-16 rounded-full bg-gradient-to-br from-indigo-600 to-cyan-500 flex items-center justify-center mb-3 shadow-lg shadow-indigo-500/30 group-hover:scale-110 transition-transform">
+            <Play size={24} className="text-white ml-1" />
+          </span>
+          <span className="text-white text-sm font-medium drop-shadow">Watch the demo</span>
+          <span className="text-xs text-white/70 mt-1">3:20 · multimodal Q&amp;A with citations</span>
+        </button>
+      )}
 
       {/* Video controls overlay */}
       <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-4 flex items-center justify-between opacity-0 group-hover:opacity-100 transition-opacity">
@@ -323,7 +339,7 @@ export default function Projects() {
               {/* Links */}
               <div className="flex items-center gap-2 shrink-0">
                 <motion.a
-                  href="https://github.com/vjkarthik98/multimodal-rag-assistant"
+                  href={REPO_URL}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-2 px-4 py-2 rounded-xl border border-[var(--border-color)] bg-[var(--bg-primary)] text-sm text-[var(--text-secondary)] hover:text-[var(--accent)] hover:border-[var(--accent)] transition-all font-medium"
@@ -347,10 +363,23 @@ export default function Projects() {
                 </span>
               ))}
             </div>
+
+            {/* Repo signals — sustained-effort evidence, not claims */}
+            <div className="flex flex-wrap items-center gap-x-5 gap-y-2 mt-5 pt-4 border-t border-[var(--border-color)]">
+              {repoSignals.map(({ icon: Icon, text }) => (
+                <span
+                  key={text}
+                  className="inline-flex items-center gap-1.5 text-xs font-mono text-[var(--text-secondary)]"
+                >
+                  <Icon size={13} className="text-indigo-400 shrink-0" />
+                  {text}
+                </span>
+              ))}
+            </div>
           </div>
 
           {/* Main content — Video + Model Card side by side on lg */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-0 divide-y lg:divide-y-0 lg:divide-x divide-[var(--border-color)]">
+          <div className="grid grid-cols-1 lg:grid-cols-2 lg:items-start gap-0 divide-y lg:divide-y-0 lg:divide-x divide-[var(--border-color)]">
             {/* Left: Video + highlights */}
             <div className="p-6 sm:p-8 space-y-6 min-w-0">
               <VideoPlayer />

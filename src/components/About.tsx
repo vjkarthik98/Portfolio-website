@@ -98,31 +98,36 @@ export default function About() {
             <p className="text-[var(--text-secondary)] leading-relaxed text-lg">
               I&apos;m a{" "}
               <span className="text-[var(--text-primary)] font-semibold">
-                highly disciplined Generative AI Engineer
+                Generative AI Engineer
               </span>{" "}
-              with a robust foundation in machine learning operations, responsible AI
-              frameworks, and production LLM systems.
+              who builds retrieval systems end to end — ingestion, evaluation,
+              guardrails, and deployment — on infrastructure I run myself.
             </p>
             <p className="text-[var(--text-secondary)] leading-relaxed">
-              I combine rigorous algorithmic problem-solving with specialized,
-              enterprise-grade training to build and deploy scalable LLM applications.
-              My background in analytical research — including multi-year preparation for
-              one of India&apos;s most competitive examinations — gives me an edge in
-              synthesizing complex information into production-ready solutions.
+              I came to engineering from an unusual direction, and it turned out to be
+              an advantage. Four years preparing for the UPSC civil services
+              examination is four years of{" "}
+              <span className="text-[var(--text-primary)] font-medium">
+                synthesizing vast, unstructured source material under evaluation
+                pressure
+              </span>{" "}
+              — which is, almost exactly, the problem retrieval quality work asks you
+              to solve. It taught me to distrust an answer that can&apos;t be traced
+              back to its source.
             </p>
             <p className="text-[var(--text-secondary)] leading-relaxed">
-              From architecting multimodal RAG pipelines to deploying containerized AI
-              APIs, I bridge complex technical architectures with{" "}
+              My MA in English shows up in the work too: systems I build are
+              documented properly, and I report evaluation numbers as they are —{" "}
               <span className="text-indigo-400 font-medium">
-                ethically grounded, real-world impact
+                including the modalities that still underperform
               </span>
-              .
+              . I&apos;d rather ship a measured weakness than an unmeasured claim.
             </p>
 
             {/* Stats */}
             <div className="grid grid-cols-3 gap-4 pt-4">
               {[
-                { value: "3", label: "Certifications" },
+                { value: "10", label: "Models on 1 GPU" },
                 { value: "0.917", label: "Routing Accuracy" },
                 { value: "7", label: "Data Modalities" },
               ].map(({ value, label }) => (
@@ -137,8 +142,8 @@ export default function About() {
             </div>
           </motion.div>
 
-          {/* Highlight cards */}
-          <div className="grid grid-cols-2 gap-4">
+          {/* Highlight cards — stacked so three cards don't leave a hole in a 2×2 grid */}
+          <div className="grid grid-cols-1 gap-4">
             {highlights.map((h, i) => (
               <HighlightCard key={h.title} {...h} delay={0.1 * i} />
             ))}

@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Download } from "lucide-react";
+import { Download, Github, Linkedin } from "lucide-react";
 
 export default function Hero() {
   return (
@@ -57,13 +57,36 @@ export default function Hero() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.5 }}
-          className="text-lg sm:text-xl text-[var(--text-secondary)] max-w-2xl mx-auto mb-10 leading-relaxed"
+          className="text-lg sm:text-xl text-[var(--text-secondary)] max-w-2xl mx-auto mb-8 leading-relaxed"
         >
-          Building production-ready{" "}
-          <span className="text-indigo-400 font-semibold">LLM pipelines</span> and{" "}
-          <span className="text-cyan-400 font-semibold">RAG systems</span> that bridge
-          complex AI architectures with real-world, responsible applications.
+          I build{" "}
+          <span className="text-indigo-400 font-semibold">multimodal agentic RAG</span>{" "}
+          on a{" "}
+          <span className="text-cyan-400 font-semibold">fully open-weights stack</span> —
+          7 modalities, 10 models on one self-hosted GPU, and no proprietary API
+          anywhere in the pipeline.
         </motion.p>
+
+        {/* Proof chips */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.55 }}
+          className="flex flex-wrap items-center justify-center gap-2 mb-10"
+        >
+          {[
+            "100% open-source models",
+            "Self-hosted · AWS A10G",
+            "CI-gated evaluations",
+          ].map((chip) => (
+            <span
+              key={chip}
+              className="px-3 py-1.5 rounded-full text-xs font-medium bg-[var(--bg-card)]/60 backdrop-blur-sm border border-[var(--border-color)] text-[var(--text-secondary)]"
+            >
+              {chip}
+            </span>
+          ))}
+        </motion.div>
 
         {/* CTA Buttons */}
         <motion.div
@@ -81,6 +104,30 @@ export default function Hero() {
           >
             <Download size={16} />
             Download Resume
+          </motion.a>
+
+          <motion.a
+            href="https://github.com/vjkarthik98"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 px-6 py-3 rounded-xl border border-[var(--border-color)] bg-[var(--bg-card)] text-[var(--text-primary)] font-semibold text-sm hover:border-[var(--accent)] hover:text-[var(--accent)] transition-all"
+            whileHover={{ scale: 1.05, y: -2 }}
+            whileTap={{ scale: 0.97 }}
+          >
+            <Github size={16} />
+            GitHub
+          </motion.a>
+
+          <motion.a
+            href="https://www.linkedin.com/in/vijaya-karthik-517353357"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 px-6 py-3 rounded-xl border border-[var(--border-color)] bg-[var(--bg-card)] text-[var(--text-primary)] font-semibold text-sm hover:border-[var(--accent)] hover:text-[var(--accent)] transition-all"
+            whileHover={{ scale: 1.05, y: -2 }}
+            whileTap={{ scale: 0.97 }}
+          >
+            <Linkedin size={16} />
+            LinkedIn
           </motion.a>
         </motion.div>
 

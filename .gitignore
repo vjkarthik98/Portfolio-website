@@ -38,3 +38,8 @@ CLAUDE.md
 # Sample dataset files (hosted on Google Drive instead — too large for git)
 /public/datasets/*
 !/public/datasets/.gitkeep
+
+# Uncompressed source recording — the committed asset is the 720p public/demo.mp4.
+# Matched by the space in the filename, since git on Windows ignores case
+# (a "Demo*.mp4" pattern would also swallow demo.mp4 itself).
+/public/*[ ]*.mp4

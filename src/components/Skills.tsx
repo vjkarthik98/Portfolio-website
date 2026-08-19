@@ -4,10 +4,10 @@ import { motion } from "framer-motion";
 
 const skillCategories = [
   {
-    category: "Programming",
+    category: "Languages",
     color: "border-indigo-500/40 bg-indigo-500/5",
     accent: "text-indigo-400",
-    skills: ["Python"],
+    skills: ["Python", "TypeScript", "JavaScript", "Bash"],
   },
   {
     category: "Generative AI & ML",

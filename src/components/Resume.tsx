@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { GraduationCap, Briefcase } from "lucide-react";
+import { GraduationCap, Briefcase, Download } from "lucide-react";
 
 const timeline = [
   {
@@ -16,20 +16,19 @@ const timeline = [
     icon: Briefcase,
     color: "text-indigo-400",
     dotColor: "bg-indigo-400",
-    label: "Professional Development",
-    name: "UPSC Examination Preparation",
-    sub: "Advanced research & analytical synthesis · June 2021 – May 2025",
+    label: "Analytical Foundation",
+    name: "UPSC Civil Services Preparation",
+    sub: "Four years synthesizing large volumes of unstructured source material under evaluation pressure · June 2021 – May 2025",
   },
   {
     icon: Briefcase,
     color: "text-indigo-400",
     dotColor: "bg-indigo-400",
-    label: "Professional Development",
+    label: "Engineering",
     name: "Independent Generative AI Engineering",
     sub: "Full-time self-directed mastery · June 2025 – Present",
   },
 ];
-
 
 export default function Resume() {
   return (
@@ -48,7 +47,6 @@ export default function Resume() {
           </h2>
         </motion.div>
 
-
         {/* Resume preview card */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -60,17 +58,34 @@ export default function Resume() {
           {/* Gradient stripe */}
           <div className="h-1.5 w-full bg-gradient-to-r from-indigo-600 via-purple-600 to-cyan-500" />
 
-          <div className="p-8 sm:p-10">
-
-
+          <div className="p-6 sm:p-10">
             {/* Alternating Timeline */}
             <div className="relative">
-              {/* Centre vertical line */}
-              <div className="absolute left-1/2 -translate-x-1/2 top-0 bottom-0 w-px bg-[var(--border-color)]" />
+              {/* Vertical line — left rail on mobile, centred from md up */}
+              <div className="absolute left-1.5 md:left-1/2 md:-translate-x-1/2 top-0 bottom-0 w-px bg-[var(--border-color)]" />
 
-              <div className="space-y-10">
+              <div className="space-y-8 md:space-y-10">
                 {timeline.map(({ icon: Icon, color, dotColor, label, name, sub }, i) => {
                   const isLeft = i % 2 === 0;
+                  const entry = (
+                    <>
+                      <span
+                        className={`inline-flex items-center gap-1.5 text-xs font-mono font-semibold uppercase tracking-widest mb-1 ${color} ${
+                          isLeft ? "md:flex-row-reverse" : ""
+                        }`}
+                      >
+                        <Icon size={11} />
+                        {label}
+                      </span>
+                      <p className="text-sm font-semibold text-[var(--text-primary)] leading-snug">
+                        {name}
+                      </p>
+                      <p className="text-xs text-[var(--text-secondary)] mt-0.5 leading-relaxed">
+                        {sub}
+                      </p>
+                    </>
+                  );
+
                   return (
                     <motion.div
                       key={name}
@@ -78,37 +93,21 @@ export default function Resume() {
                       whileInView={{ opacity: 1, x: 0 }}
                       viewport={{ once: true }}
                       transition={{ delay: i * 0.1 }}
-                      className="relative grid grid-cols-2 gap-8 items-center"
+                      className="relative grid grid-cols-1 md:grid-cols-2 md:gap-8 md:items-center pl-8 md:pl-0"
                     >
-                      {/* Left side content */}
-                      <div className={isLeft ? "text-right" : ""}>
-                        {isLeft && (
-                          <>
-                            <span className={`inline-flex items-center justify-end gap-1.5 text-xs font-mono font-semibold uppercase tracking-widest mb-1 ${color}`}>
-                              {label}
-                              <Icon size={11} />
-                            </span>
-                            <p className="text-sm font-semibold text-[var(--text-primary)] leading-snug">{name}</p>
-                            <p className="text-xs text-[var(--text-secondary)] mt-0.5">{sub}</p>
-                          </>
-                        )}
+                      {/* Dot — sits on the rail at both breakpoints */}
+                      <div
+                        className={`absolute left-0 top-1 md:top-1/2 md:left-1/2 md:-translate-x-1/2 md:-translate-y-1/2 w-3 h-3 rounded-full ${dotColor} ring-4 ring-[var(--bg-card)] z-10`}
+                      />
+
+                      {/* Left slot */}
+                      <div className={isLeft ? "md:text-right" : "hidden md:block"}>
+                        {isLeft && entry}
                       </div>
 
-                      {/* Centre dot */}
-                      <div className={`absolute left-1/2 -translate-x-1/2 w-3 h-3 rounded-full ${dotColor} ring-4 ring-[var(--bg-card)] z-10`} />
-
-                      {/* Right side content */}
-                      <div className={!isLeft ? "text-left" : ""}>
-                        {!isLeft && (
-                          <>
-                            <span className={`inline-flex items-center gap-1.5 text-xs font-mono font-semibold uppercase tracking-widest mb-1 ${color}`}>
-                              <Icon size={11} />
-                              {label}
-                            </span>
-                            <p className="text-sm font-semibold text-[var(--text-primary)] leading-snug">{name}</p>
-                            <p className="text-xs text-[var(--text-secondary)] mt-0.5">{sub}</p>
-                          </>
-                        )}
+                      {/* Right slot */}
+                      <div className={!isLeft ? "" : "hidden md:block"}>
+                        {!isLeft && entry}
                       </div>
                     </motion.div>
                   );
@@ -116,6 +115,22 @@ export default function Resume() {
               </div>
             </div>
 
+            {/* Download CTA */}
+            <div className="mt-10 pt-8 border-t border-[var(--border-color)] flex flex-col sm:flex-row items-center justify-between gap-4">
+              <p className="text-sm text-[var(--text-secondary)] text-center sm:text-left">
+                Full details, tooling, and project breakdowns are in the PDF.
+              </p>
+              <motion.a
+                href="/resume.pdf"
+                download="Vijaya_Karthik_Resume.pdf"
+                className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-r from-indigo-600 to-cyan-500 text-white font-semibold text-sm shadow-lg hover:shadow-indigo-500/25 transition-all shrink-0"
+                whileHover={{ scale: 1.05, y: -2 }}
+                whileTap={{ scale: 0.97 }}
+              >
+                <Download size={16} />
+                Download Resume
+              </motion.a>
+            </div>
           </div>
         </motion.div>
       </div>

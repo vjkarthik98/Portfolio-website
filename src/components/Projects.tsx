@@ -18,8 +18,13 @@ import {
   GitCommitHorizontal,
   Scale,
   FileCode,
+  CheckCircle2,
+  AlertTriangle,
+  ExternalLink,
 } from "lucide-react";
 import ModelCard, { REPO_URL } from "./ModelCard";
+
+const LIVE_DEMO_URL = "https://magik.vk-ai.online";
 
 const tagline =
   "A fully open-source, self-hosted agentic RAG system spanning 7 data modalities for finance-domain Q&A — every model runs on open weights (no proprietary API dependency), deployed on an AWS GPU with enforced tenant isolation, guardrails, and a CI-gated eval harness.";
@@ -62,37 +67,48 @@ const highlights = [
   "Runs 10 resident ML models (LLM, embedder, reranker, vision, ASR, diarizer, OCR, NER) concurrently on a single A10G 24GB GPU through careful device / memory management.",
 ];
 
+// Retrieval & routing only — generation quality, safety, and finance fidelity are
+// broken out per modality below, which is a more honest view than one blended number.
 const qualityMetrics = [
-  { metric: "Recall@5", threshold: "≥ 0.418 (gate)" },
-  { metric: "MRR", threshold: "≥ 0.772" },
-  { metric: "nDCG@10", threshold: "≥ 0.575" },
-  { metric: "Faithfulness", threshold: "≥ 0.25" },
-  { metric: "Finance numeric fidelity", threshold: "≥ 0.95" },
-  { metric: "Routing accuracy", threshold: "≥ 0.917" },
+  { metric: "Recall@5", achieved: "0.509", threshold: "≥ 0.4835", status: "Pass", tone: "pass" },
+  { metric: "MRR", achieved: "0.356", threshold: "≥ 0.3380", status: "Pass", tone: "pass" },
+  { metric: "nDCG@10", achieved: "0.402", threshold: "≥ 0.3823", status: "Pass", tone: "pass" },
+  { metric: "Routing accuracy", achieved: "1.000", threshold: "≥ 0.917", status: "Pass", tone: "pass" },
 ];
 
-const modalityBenchmarks = [
-  { modality: "XLSX", score: "92.0", status: "Pass", tone: "pass" },
-  { modality: "Image", score: "~95", status: "Pass", tone: "pass" },
-  { modality: "PDF", score: "85.8", status: "Pass", tone: "pass" },
-  {
-    modality: "Audio",
-    score: "78.8",
-    status: "Partial — upstream pipeline scores 97/100, gap is in shared query-answering layer",
-    tone: "partial",
-  },
-  {
-    modality: "Video",
-    score: "71.75",
-    status: "In progress — upstream ingestion scores 100/100",
-    tone: "progress",
-  },
+// Generation quality & safety — LLM-judged (Qwen2.5-7B), n=14 gold rows/modality, captured 2026-08-20.
+const modalityQuality = [
+  { modality: "Text", correctness: "0.66", correctnessTone: "partial", faithfulness: "0.45", faithfulnessTone: "risk", hallucination: "9%", hallucinationTone: "pass" },
+  { modality: "PDF", correctness: "0.86", correctnessTone: "pass", faithfulness: "0.57", faithfulnessTone: "risk", hallucination: "50%", hallucinationTone: "risk" },
+  { modality: "DOCX", correctness: "0.79", correctnessTone: "partial", faithfulness: "0.64", faithfulnessTone: "risk", hallucination: "43%", hallucinationTone: "risk" },
+  { modality: "XLSX", correctness: "0.73", correctnessTone: "partial", faithfulness: "0.62", faithfulnessTone: "risk", hallucination: "14%", hallucinationTone: "pass" },
+  { modality: "Image", correctness: "0.89", correctnessTone: "pass", faithfulness: "0.80", faithfulnessTone: "pass", hallucination: "7%", hallucinationTone: "pass" },
+  { modality: "Audio", correctness: "0.68", correctnessTone: "partial", faithfulness: "0.39", faithfulnessTone: "risk", hallucination: "14%", hallucinationTone: "pass" },
+  { modality: "Video", correctness: "0.79", correctnessTone: "partial", faithfulness: "0.39", faithfulnessTone: "risk", hallucination: "29%", hallucinationTone: "partial" },
+];
+
+// Finance fidelity & latency — same run as above.
+const modalityFidelity = [
+  { modality: "Text", fidelity: "0.91", fidelityTone: "pass", p50: "11.8s", p95: "34.1s", p95Tone: "risk" },
+  { modality: "PDF", fidelity: "0.84", fidelityTone: "partial", p50: "9.7s", p95: "19.4s", p95Tone: "partial" },
+  { modality: "DOCX", fidelity: "0.81", fidelityTone: "partial", p50: "6.7s", p95: "10.9s", p95Tone: "pass" },
+  { modality: "XLSX", fidelity: "0.93", fidelityTone: "pass", p50: "10.2s", p95: "14.9s", p95Tone: "partial" },
+  { modality: "Image", fidelity: "0.99", fidelityTone: "pass", p50: "4.3s", p95: "6.1s", p95Tone: "pass" },
+  { modality: "Audio", fidelity: "0.63", fidelityTone: "risk", p50: "12.9s", p95: "19.3s", p95Tone: "partial" },
+  { modality: "Video", fidelity: "0.96", fidelityTone: "pass", p50: "8.6s", p95: "11.0s", p95Tone: "pass" },
 ];
 
 const toneStyles: Record<string, string> = {
   pass: "bg-emerald-500/15 text-emerald-400 border-emerald-500/30",
   partial: "bg-amber-500/15 text-amber-400 border-amber-500/30",
   progress: "bg-sky-500/15 text-sky-400 border-sky-500/30",
+  risk: "bg-rose-500/15 text-rose-400 border-rose-500/30",
+};
+
+const toneText: Record<string, string> = {
+  pass: "text-emerald-400",
+  partial: "text-amber-400",
+  risk: "text-rose-400",
 };
 
 function VideoPlayer() {
@@ -187,50 +203,18 @@ function EvaluationResults() {
         <BarChart3 size={15} className="text-indigo-400" />
         Evaluation Results
       </h4>
-      <p className="text-xs text-[var(--text-secondary)] mb-6">
-        Real numbers from the CI-gated eval harness and manual per-modality audits — reported as-is,
-        including where audio and video still trail.
+      <p className="text-xs text-[var(--text-secondary)] mb-6 leading-relaxed">
+        Per-modality scorecard from a live run against the current codebase — n=14 gold rows per
+        modality, single run (not the N=3-averaged CI gate baseline that blocks merges), LLM-judged
+        via Qwen2.5-7B. Captured 2026-08-20. Reported as measured, including where it's weak.
       </p>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {/* Retrieval & Generation Quality */}
+        {/* Generation Quality & Safety */}
         <div className="min-w-0">
           <p className="text-xs font-mono font-medium text-[var(--text-secondary)] mb-3 uppercase tracking-widest">
-            Retrieval &amp; Generation Quality
-            <span className="text-[var(--text-secondary)]/60"> · CI-gated thresholds</span>
-          </p>
-          <div className="overflow-x-auto rounded-xl border border-[var(--border-color)]">
-            <table className="w-full text-sm">
-              <thead>
-                <tr className="bg-[var(--bg-primary)] text-left">
-                  <th className="px-4 py-2.5 font-mono text-xs font-semibold text-[var(--text-secondary)] uppercase tracking-wider">
-                    Metric
-                  </th>
-                  <th className="px-4 py-2.5 font-mono text-xs font-semibold text-[var(--text-secondary)] uppercase tracking-wider">
-                    Threshold
-                  </th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-[var(--border-color)]">
-                {qualityMetrics.map(({ metric, threshold }) => (
-                  <tr key={metric}>
-                    <td className="px-4 py-2.5 text-[var(--text-primary)]">{metric}</td>
-                    <td className="px-4 py-2.5 font-mono text-indigo-400">{threshold}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-          <p className="text-xs text-[var(--text-secondary)]/70 mt-2 italic">
-            Faithfulness uses a harness-specific (Ragas-style) scale, not a 0–1 accuracy percentage.
-          </p>
-        </div>
-
-        {/* Per-Modality QA Benchmarks */}
-        <div className="min-w-0">
-          <p className="text-xs font-mono font-medium text-[var(--text-secondary)] mb-3 uppercase tracking-widest">
-            Per-Modality QA Benchmarks
-            <span className="text-[var(--text-secondary)]/60"> · manual audits /100</span>
+            Generation Quality &amp; Safety
+            <span className="text-[var(--text-secondary)]/60"> · per modality</span>
           </p>
           <div className="overflow-x-auto rounded-xl border border-[var(--border-color)]">
             <table className="w-full text-sm">
@@ -240,31 +224,197 @@ function EvaluationResults() {
                     Modality
                   </th>
                   <th className="px-4 py-2.5 font-mono text-xs font-semibold text-[var(--text-secondary)] uppercase tracking-wider">
-                    Score
+                    Correctness
                   </th>
                   <th className="px-4 py-2.5 font-mono text-xs font-semibold text-[var(--text-secondary)] uppercase tracking-wider">
-                    Status
+                    Faithfulness
+                  </th>
+                  <th className="px-4 py-2.5 font-mono text-xs font-semibold text-[var(--text-secondary)] uppercase tracking-wider">
+                    Hallucination
                   </th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-[var(--border-color)]">
-                {modalityBenchmarks.map(({ modality, score, status, tone }) => (
-                  <tr key={modality}>
-                    <td className="px-4 py-2.5 text-[var(--text-primary)] font-medium">{modality}</td>
-                    <td className="px-4 py-2.5 font-mono text-[var(--text-primary)]">{score}</td>
-                    <td className="px-4 py-2.5">
-                      <span
-                        className={`inline-block px-2 py-0.5 rounded-md text-xs border ${toneStyles[tone]}`}
-                      >
-                        {status}
-                      </span>
+                {modalityQuality.map((row) => (
+                  <tr key={row.modality}>
+                    <td className="px-4 py-2.5 text-[var(--text-primary)] font-medium whitespace-nowrap">
+                      {row.modality}
+                    </td>
+                    <td className={`px-4 py-2.5 font-mono ${toneText[row.correctnessTone]}`}>
+                      {row.correctness}
+                    </td>
+                    <td className={`px-4 py-2.5 font-mono ${toneText[row.faithfulnessTone]}`}>
+                      {row.faithfulness}
+                    </td>
+                    <td className={`px-4 py-2.5 font-mono ${toneText[row.hallucinationTone]}`}>
+                      {row.hallucination}
                     </td>
                   </tr>
                 ))}
               </tbody>
             </table>
           </div>
+          <p className="text-xs text-[var(--text-secondary)]/70 mt-2 italic">
+            Correctness &amp; faithfulness: 0–1, higher is better. Hallucination: share of sampled
+            responses with an unsupported claim, lower is better.
+          </p>
         </div>
+
+        {/* Finance Fidelity & Latency */}
+        <div className="min-w-0">
+          <p className="text-xs font-mono font-medium text-[var(--text-secondary)] mb-3 uppercase tracking-widest">
+            Finance Fidelity &amp; Latency
+            <span className="text-[var(--text-secondary)]/60"> · per modality</span>
+          </p>
+          <div className="overflow-x-auto rounded-xl border border-[var(--border-color)]">
+            <table className="w-full text-sm">
+              <thead>
+                <tr className="bg-[var(--bg-primary)] text-left">
+                  <th className="px-4 py-2.5 font-mono text-xs font-semibold text-[var(--text-secondary)] uppercase tracking-wider">
+                    Modality
+                  </th>
+                  <th className="px-4 py-2.5 font-mono text-xs font-semibold text-[var(--text-secondary)] uppercase tracking-wider">
+                    Fidelity
+                  </th>
+                  <th className="px-4 py-2.5 font-mono text-xs font-semibold text-[var(--text-secondary)] uppercase tracking-wider">
+                    Gen p50
+                  </th>
+                  <th className="px-4 py-2.5 font-mono text-xs font-semibold text-[var(--text-secondary)] uppercase tracking-wider">
+                    Gen p95
+                  </th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-[var(--border-color)]">
+                {modalityFidelity.map((row) => (
+                  <tr key={row.modality}>
+                    <td className="px-4 py-2.5 text-[var(--text-primary)] font-medium whitespace-nowrap">
+                      {row.modality}
+                    </td>
+                    <td className={`px-4 py-2.5 font-mono ${toneText[row.fidelityTone]}`}>
+                      {row.fidelity}
+                    </td>
+                    <td className="px-4 py-2.5 font-mono text-[var(--text-secondary)]">{row.p50}</td>
+                    <td className={`px-4 py-2.5 font-mono ${toneText[row.p95Tone]}`}>{row.p95}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+          <p className="text-xs text-[var(--text-secondary)]/70 mt-2 italic">
+            Finance fidelity: 0–1, higher is better. Latency: end-to-end generation time, lower is
+            better.
+          </p>
+        </div>
+      </div>
+
+      {/* Where it stands — honest, specific, no spin */}
+      <div className="mt-6 rounded-xl border border-[var(--border-color)] bg-[var(--bg-primary)] p-5">
+        <p className="text-xs font-mono font-medium text-[var(--text-secondary)] mb-3 uppercase tracking-widest">
+          Where It Stands
+        </p>
+        <ul className="space-y-3">
+          <li className="flex gap-2.5 text-sm text-[var(--text-secondary)] leading-relaxed">
+            <CheckCircle2 size={15} className="text-emerald-400 shrink-0 mt-0.5" />
+            <span>
+              <strong className="text-[var(--text-primary)] font-semibold">
+                Image is the strongest modality across the board
+              </strong>{" "}
+              — highest correctness (0.89) and faithfulness (0.80), best finance fidelity (0.99),
+              and the fastest generation latency (p95 6.1s).
+            </span>
+          </li>
+          <li className="flex gap-2.5 text-sm text-[var(--text-secondary)] leading-relaxed">
+            <AlertTriangle size={15} className="text-rose-400 shrink-0 mt-0.5" />
+            <span>
+              <strong className="text-[var(--text-primary)] font-semibold">
+                Audio needs real improvement.
+              </strong>{" "}
+              Weakest citation grounding in the verification loop (0.54), lowest finance fidelity
+              (0.63), and it retries almost once per query on average (0.92) — top priority for the
+              next iteration.
+            </span>
+          </li>
+          <li className="flex gap-2.5 text-sm text-[var(--text-secondary)] leading-relaxed">
+            <AlertTriangle size={15} className="text-amber-400 shrink-0 mt-0.5" />
+            <span>
+              <strong className="text-[var(--text-primary)] font-semibold">
+                Faithfulness is the weakest quality axis system-wide
+              </strong>{" "}
+              (0.39–0.80), not just in audio and video — most modalities have real room to reduce
+              ungrounded claims.
+            </span>
+          </li>
+          <li className="flex gap-2.5 text-sm text-[var(--text-secondary)] leading-relaxed">
+            <AlertTriangle size={15} className="text-amber-400 shrink-0 mt-0.5" />
+            <span>
+              <strong className="text-[var(--text-primary)] font-semibold">
+                PDF and DOCX show elevated hallucination rates
+              </strong>{" "}
+              (50% and 43% of sampled responses) despite strong correctness scores. Under
+              investigation, alongside PDF&apos;s context-recall drop to 0.28 — an outlier against
+              every other modality.
+            </span>
+          </li>
+          <li className="flex gap-2.5 text-sm text-[var(--text-secondary)] leading-relaxed">
+            <AlertTriangle size={15} className="text-amber-400 shrink-0 mt-0.5" />
+            <span>
+              <strong className="text-[var(--text-primary)] font-semibold">
+                Text has unexplained tail-latency spikes
+              </strong>{" "}
+              (p95 34s, p99 44s) despite being the simplest modality — flagged for follow-up, not
+              yet root-caused.
+            </span>
+          </li>
+        </ul>
+      </div>
+
+      {/* CI Gate — Retrieval & Routing (secondary, de-emphasized) */}
+      <div className="mt-6">
+        <p className="text-xs font-mono font-medium text-[var(--text-secondary)] mb-3 uppercase tracking-widest">
+          CI Gate &mdash; Retrieval &amp; Routing
+          <span className="text-[var(--text-secondary)]/60"> · achieved vs. gate, blocks merges on regression</span>
+        </p>
+        <div className="overflow-x-auto rounded-xl border border-[var(--border-color)]">
+          <table className="w-full text-sm">
+            <thead>
+              <tr className="bg-[var(--bg-primary)] text-left">
+                <th className="px-4 py-2.5 font-mono text-xs font-semibold text-[var(--text-secondary)] uppercase tracking-wider">
+                  Metric
+                </th>
+                <th className="px-4 py-2.5 font-mono text-xs font-semibold text-[var(--text-secondary)] uppercase tracking-wider">
+                  Achieved
+                </th>
+                <th className="px-4 py-2.5 font-mono text-xs font-semibold text-[var(--text-secondary)] uppercase tracking-wider">
+                  Gate
+                </th>
+                <th className="px-4 py-2.5 font-mono text-xs font-semibold text-[var(--text-secondary)] uppercase tracking-wider">
+                  Status
+                </th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-[var(--border-color)]">
+              {qualityMetrics.map(({ metric, achieved, threshold, status, tone }) => (
+                <tr key={metric}>
+                  <td className="px-4 py-2.5 text-[var(--text-primary)]">{metric}</td>
+                  <td className={`px-4 py-2.5 font-mono ${toneText[tone]}`}>{achieved}</td>
+                  <td className="px-4 py-2.5 font-mono text-[var(--text-secondary)]">{threshold}</td>
+                  <td className="px-4 py-2.5">
+                    <span
+                      className={`inline-block px-1.5 py-0.5 rounded text-[10px] border ${toneStyles[tone]}`}
+                    >
+                      {status}
+                    </span>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+        <p className="text-xs text-[var(--text-secondary)]/70 mt-2 italic">
+          Production CI baseline (n=56, 2026-07-28). All figures above were captured on a
+          verified-healthy server after resolving a mid-run process fault unrelated to the
+          modalities under test.
+        </p>
       </div>
     </div>
   );
@@ -305,7 +455,7 @@ export default function Projects() {
                 <div className="flex flex-wrap items-center gap-x-2 gap-y-1 mb-3">
                   <span className="flex items-center gap-1.5 text-xs font-mono text-[var(--text-secondary)] whitespace-nowrap">
                     <Calendar size={12} />
-                    March 2026 – July 2026
+                    March 2026 – August 2026
                   </span>
                   <span className="w-1 h-1 rounded-full bg-[var(--text-secondary)] shrink-0" />
                   <span className="flex items-center gap-1.5 text-xs font-mono text-emerald-400 whitespace-nowrap">
@@ -337,18 +487,34 @@ export default function Projects() {
               </div>
 
               {/* Links */}
-              <div className="flex items-center gap-2 shrink-0">
-                <motion.a
-                  href={REPO_URL}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 px-4 py-2 rounded-xl border border-[var(--border-color)] bg-[var(--bg-primary)] text-sm text-[var(--text-secondary)] hover:text-[var(--accent)] hover:border-[var(--accent)] transition-all font-medium"
-                  whileHover={{ scale: 1.04 }}
-                  whileTap={{ scale: 0.97 }}
-                >
-                  <Github size={15} />
-                  GitHub
-                </motion.a>
+              <div className="flex flex-col items-end gap-2 shrink-0">
+                <div className="flex items-center gap-2">
+                  <motion.a
+                    href={LIVE_DEMO_URL}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-gradient-to-r from-indigo-600 to-cyan-500 text-white text-sm font-semibold shadow-lg hover:shadow-indigo-500/25 transition-all"
+                    whileHover={{ scale: 1.04 }}
+                    whileTap={{ scale: 0.97 }}
+                  >
+                    <ExternalLink size={15} />
+                    Live Demo
+                  </motion.a>
+                  <motion.a
+                    href={REPO_URL}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 px-4 py-2 rounded-xl border border-[var(--border-color)] bg-[var(--bg-primary)] text-sm text-[var(--text-secondary)] hover:text-[var(--accent)] hover:border-[var(--accent)] transition-all font-medium"
+                    whileHover={{ scale: 1.04 }}
+                    whileTap={{ scale: 0.97 }}
+                  >
+                    <Github size={15} />
+                    GitHub
+                  </motion.a>
+                </div>
+                <p className="text-[10px] text-[var(--text-secondary)]/60 whitespace-nowrap">
+                  Self-hosted GPU — first load may take a minute to wake
+                </p>
               </div>
             </div>
 

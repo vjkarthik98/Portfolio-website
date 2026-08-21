@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { GraduationCap, Briefcase, Download } from "lucide-react";
+import { GraduationCap, Briefcase } from "lucide-react";
 
 const timeline = [
   {
@@ -113,23 +113,6 @@ export default function Resume() {
                   );
                 })}
               </div>
-            </div>
-
-            {/* Download CTA */}
-            <div className="mt-10 pt-8 border-t border-[var(--border-color)] flex flex-col sm:flex-row items-center justify-between gap-4">
-              <p className="text-sm text-[var(--text-secondary)] text-center sm:text-left">
-                Full details, tooling, and project breakdowns are in the PDF.
-              </p>
-              <motion.a
-                href="/resume.pdf"
-                download="Vijaya_Karthik_Resume.pdf"
-                className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-r from-indigo-600 to-cyan-500 text-white font-semibold text-sm shadow-lg hover:shadow-indigo-500/25 transition-all shrink-0"
-                whileHover={{ scale: 1.05, y: -2 }}
-                whileTap={{ scale: 0.97 }}
-              >
-                <Download size={16} />
-                Download Resume
-              </motion.a>
             </div>
           </div>
         </motion.div>

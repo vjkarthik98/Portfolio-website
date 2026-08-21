@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Download, Github, Linkedin } from "lucide-react";
+import { Download } from "lucide-react";
 
 export default function Hero() {
   return (
@@ -104,30 +104,6 @@ export default function Hero() {
           >
             <Download size={16} />
             Download Resume
-          </motion.a>
-
-          <motion.a
-            href="https://github.com/vjkarthik98"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 px-6 py-3 rounded-xl border border-[var(--border-color)] bg-[var(--bg-card)] text-[var(--text-primary)] font-semibold text-sm hover:border-[var(--accent)] hover:text-[var(--accent)] transition-all"
-            whileHover={{ scale: 1.05, y: -2 }}
-            whileTap={{ scale: 0.97 }}
-          >
-            <Github size={16} />
-            GitHub
-          </motion.a>
-
-          <motion.a
-            href="https://www.linkedin.com/in/vijaya-karthik-517353357"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 px-6 py-3 rounded-xl border border-[var(--border-color)] bg-[var(--bg-card)] text-[var(--text-primary)] font-semibold text-sm hover:border-[var(--accent)] hover:text-[var(--accent)] transition-all"
-            whileHover={{ scale: 1.05, y: -2 }}
-            whileTap={{ scale: 0.97 }}
-          >
-            <Linkedin size={16} />
-            LinkedIn
           </motion.a>
         </motion.div>
 

@@ -9,7 +9,7 @@ const highlights = [
   {
     icon: Brain,
     title: "Generative AI",
-    desc: "RAG pipelines & agentic systems",
+    desc: "LLM applications & agentic systems",
     color: "from-indigo-500 to-purple-500",
   },
   {
@@ -100,8 +100,9 @@ export default function About() {
               <span className="text-[var(--text-primary)] font-semibold">
                 Generative AI Engineer
               </span>{" "}
-              who builds retrieval systems end to end — ingestion, evaluation,
-              guardrails, and deployment — on infrastructure I run myself.
+              focused on building AI systems that hold up under real evaluation, not
+              just demos. I care as much about how a system is measured and deployed
+              as how it&apos;s designed.
             </p>
             <p className="text-[var(--text-secondary)] leading-relaxed">
               I came to engineering from an unusual direction, and it turned out to be
@@ -111,35 +112,15 @@ export default function About() {
                 synthesizing vast, unstructured source material under evaluation
                 pressure
               </span>{" "}
-              — which is, almost exactly, the problem retrieval quality work asks you
-              to solve. It taught me to distrust an answer that can&apos;t be traced
-              back to its source.
+              — a discipline that maps directly onto AI engineering, where an answer
+              is only as good as the source it can be traced back to.
             </p>
             <p className="text-[var(--text-secondary)] leading-relaxed">
-              My MA in English shows up in the work too: systems I build are
-              documented properly, and I report evaluation numbers as they are —{" "}
-              <span className="text-indigo-400 font-medium">
-                including the modalities that still underperform
-              </span>
-              . I&apos;d rather ship a measured weakness than an unmeasured claim.
+              My MA in English shows up in the work too: I document systems clearly
+              and report results honestly, including{" "}
+              <span className="text-indigo-400 font-medium">where they fall short</span>.
+              I&apos;d rather ship a measured weakness than an unmeasured claim.
             </p>
-
-            {/* Stats */}
-            <div className="grid grid-cols-3 gap-4 pt-4">
-              {[
-                { value: "10", label: "Models on 1 GPU" },
-                { value: "0.917", label: "Routing Accuracy" },
-                { value: "7", label: "Data Modalities" },
-              ].map(({ value, label }) => (
-                <div
-                  key={label}
-                  className="text-center p-3 rounded-xl border border-[var(--border-color)] bg-[var(--bg-primary)]"
-                >
-                  <div className="text-xl font-bold gradient-text">{value}</div>
-                  <div className="text-xs text-[var(--text-secondary)] mt-1">{label}</div>
-                </div>
-              ))}
-            </div>
           </motion.div>
 
           {/* Highlight cards — stacked so three cards don't leave a hole in a 2×2 grid */}

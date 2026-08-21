@@ -1,18 +1,24 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Send, Github, Linkedin, MapPin } from "lucide-react";
+import { Github, Linkedin, Mail } from "lucide-react";
+
+const socialLinks = [
+  { href: "https://github.com/vjkarthik98", icon: Github, label: "GitHub" },
+  { href: "https://www.linkedin.com/in/vijaya-karthik-517353357", icon: Linkedin, label: "LinkedIn" },
+  { href: "https://mail.google.com/mail/?view=cm&to=karthikvj398@gmail.com", icon: Mail, label: "Email" },
+];
 
 export default function Contact() {
   return (
     <section id="contact" className="section-padding bg-[var(--bg-primary)]">
-      <div className="max-w-4xl mx-auto">
+      <div className="max-w-3xl mx-auto">
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="text-center mb-16"
+          className="text-center"
         >
           <p className="text-indigo-400 font-mono text-sm font-medium mb-2 tracking-widest uppercase">
             Get In Touch
@@ -21,81 +27,38 @@ export default function Contact() {
             Let&apos;s{" "}
             <span className="gradient-text">Connect</span>
           </h2>
-          <p className="text-[var(--text-secondary)] mt-4 max-w-lg mx-auto">
-            I&apos;m actively looking for opportunities in Generative AI Engineering.
-            Whether it&apos;s a project, a role, or just a conversation — reach out.
+          <p className="text-[var(--text-secondary)] mt-4 max-w-lg mx-auto leading-relaxed">
+            I&apos;m actively seeking full-time opportunities in Generative AI Engineering,
+            MLOps, and LLM-driven product development. Whether it&apos;s a role, a
+            collaboration, or just a conversation — reach out.
           </p>
         </motion.div>
 
-        {/* CTA banner */}
+        {/* Connect */}
         <motion.div
-          initial={{ opacity: 0, scale: 0.97 }}
-          whileInView={{ opacity: 1, scale: 1 }}
+          initial={{ opacity: 0, y: 15 }}
+          whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.5 }}
-          className="relative rounded-3xl overflow-hidden mb-12 p-8 sm:p-12 text-center"
+          transition={{ delay: 0.15 }}
+          className="flex flex-col items-center mt-10"
         >
-          {/* BG gradient */}
-          <div className="absolute inset-0 bg-gradient-to-br from-indigo-600/20 via-purple-600/10 to-cyan-600/20 border border-indigo-500/30 rounded-3xl" />
-          <div className="absolute inset-0 bg-[var(--bg-card)] opacity-80" />
-          <div className="absolute top-0 left-1/4 w-64 h-64 bg-indigo-500/10 rounded-full blur-3xl" />
-          <div className="absolute bottom-0 right-1/4 w-64 h-64 bg-cyan-500/10 rounded-full blur-3xl" />
-
-          <div className="relative z-10">
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-indigo-500/20 border border-indigo-500/30 text-indigo-300 text-sm mb-6">
-              <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-              Available for opportunities
-            </div>
-            <h3 className="text-2xl sm:text-3xl font-bold text-[var(--text-primary)] mb-4">
-              Open to Generative AI Roles
-            </h3>
-            <p className="text-[var(--text-secondary)] max-w-md mx-auto mb-8">
-              Actively seeking full-time positions and collaboration opportunities
-              in AI Engineering, MLOps, and LLM-driven product development.
-            </p>
-            <div className="flex flex-wrap items-center justify-center gap-3">
+          <div className="flex items-center gap-4">
+            {socialLinks.map(({ href, icon: Icon, label }) => (
               <motion.a
-                href="mailto:karthikvj398@gmail.com"
-                className="inline-flex items-center gap-2 px-8 py-3.5 rounded-xl bg-gradient-to-r from-indigo-600 to-cyan-500 text-white font-semibold shadow-lg hover:shadow-indigo-500/30 transition-all"
-                whileHover={{ scale: 1.05, y: -2 }}
-                whileTap={{ scale: 0.97 }}
-              >
-                <Send size={16} />
-                Send an Email
-              </motion.a>
-
-              <motion.a
-                href="https://www.linkedin.com/in/vijaya-karthik-517353357"
+                key={label}
+                href={href}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 px-6 py-3.5 rounded-xl border border-[var(--border-color)] bg-[var(--bg-card)] text-[var(--text-primary)] font-semibold hover:border-[var(--accent)] hover:text-[var(--accent)] transition-all"
-                whileHover={{ scale: 1.05, y: -2 }}
-                whileTap={{ scale: 0.97 }}
+                className="p-4 rounded-2xl border border-[var(--border-color)] text-[var(--text-secondary)] hover:text-[var(--accent)] hover:border-[var(--accent)] transition-all"
+                whileHover={{ scale: 1.1, y: -2 }}
+                whileTap={{ scale: 0.95 }}
+                aria-label={label}
               >
-                <Linkedin size={16} />
-                LinkedIn
+                <Icon size={24} />
               </motion.a>
-
-              <motion.a
-                href="https://github.com/vjkarthik98"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 px-6 py-3.5 rounded-xl border border-[var(--border-color)] bg-[var(--bg-card)] text-[var(--text-primary)] font-semibold hover:border-[var(--accent)] hover:text-[var(--accent)] transition-all"
-                whileHover={{ scale: 1.05, y: -2 }}
-                whileTap={{ scale: 0.97 }}
-              >
-                <Github size={16} />
-                GitHub
-              </motion.a>
-            </div>
-
-            <p className="flex items-center justify-center gap-1.5 text-sm text-[var(--text-secondary)] mt-6">
-              <MapPin size={14} />
-              India · open to remote and relocation
-            </p>
+            ))}
           </div>
         </motion.div>
-
       </div>
     </section>
   );

@@ -24,7 +24,7 @@ import {
 } from "lucide-react";
 import ModelCard, { REPO_URL } from "./ModelCard";
 
-const LIVE_DEMO_URL = "https://magik.vk-ai.online";
+const LIVE_DEMO_URL = "https://launch.vk-ai.online";
 
 const tagline =
   "A fully open-source, self-hosted agentic RAG system spanning 7 data modalities for finance-domain Q&A — every model runs on open weights (no proprietary API dependency), deployed on an AWS GPU with enforced tenant isolation, guardrails, and a CI-gated eval harness.";

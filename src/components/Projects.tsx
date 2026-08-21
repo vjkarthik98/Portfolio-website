@@ -504,7 +504,7 @@ export default function Projects() {
                     href={REPO_URL}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 px-4 py-2 rounded-xl border border-[var(--border-color)] bg-[var(--bg-primary)] text-sm text-[var(--text-secondary)] hover:text-[var(--accent)] hover:border-[var(--accent)] transition-all font-medium"
+                    className="inline-flex items-center gap-2 px-4 py-2 rounded-xl border border-purple-500/30 bg-purple-500/10 text-sm text-purple-400 hover:bg-purple-500/15 hover:border-purple-500/50 transition-all font-medium"
                     whileHover={{ scale: 1.04 }}
                     whileTap={{ scale: 0.97 }}
                   >

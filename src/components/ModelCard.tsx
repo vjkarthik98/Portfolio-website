@@ -83,11 +83,11 @@ export default function ModelCard() {
             </a>
           </div>
         </div>
-        <div className="flex flex-row flex-wrap sm:flex-col items-start sm:items-end gap-1.5 sm:gap-1 shrink-0">
-          <span className="px-2 py-1 text-xs rounded-full bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 font-mono whitespace-nowrap">
+        <div className="flex flex-row flex-wrap sm:flex-col items-start sm:items-stretch gap-1.5 sm:gap-1 shrink-0">
+          <span className="px-2 py-1 text-xs text-center rounded-full bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 font-mono whitespace-nowrap">
             self-hosted
           </span>
-          <span className="px-2 py-1 text-xs rounded-full bg-indigo-500/15 text-indigo-400 border border-indigo-500/30 font-mono whitespace-nowrap">
+          <span className="px-2 py-1 text-xs text-center rounded-full bg-indigo-500/15 text-indigo-400 border border-indigo-500/30 font-mono whitespace-nowrap">
             open-weights
           </span>
         </div>
@@ -113,11 +113,11 @@ export default function ModelCard() {
         <p className="text-xs font-mono font-medium text-[var(--text-secondary)] mb-3 uppercase tracking-widest">
           Input Modalities <span className="text-[var(--text-secondary)]/60">· 7</span>
         </p>
-        <div className="flex flex-wrap gap-2">
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 justify-items-stretch">
           {modalities.map(({ icon: Icon, label, color }) => (
             <div
               key={label}
-              className={`inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg border text-xs font-medium ${color}`}
+              className={`inline-flex items-center justify-center gap-1.5 px-2.5 py-1.5 rounded-lg border text-xs font-medium ${color}`}
             >
               <Icon size={13} />
               {label}

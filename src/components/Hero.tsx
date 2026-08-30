@@ -63,7 +63,7 @@ export default function Hero() {
           <span className="text-indigo-400 font-semibold">multimodal agentic RAG</span>{" "}
           on a{" "}
           <span className="text-cyan-400 font-semibold">fully open-weights stack</span> —
-          7 modalities, 10 models on one self-hosted GPU, and no proprietary API
+          7 modalities, 17 models on one self-hosted GPU, and no proprietary API
           anywhere in the pipeline.
         </motion.p>
 
@@ -76,7 +76,7 @@ export default function Hero() {
         >
           {[
             "100% open-source models",
-            "Self-hosted · AWS A10G",
+            "Self-hosted · AWS L40S",
             "CI-gated evaluations",
           ].map((chip) => (
             <span

@@ -21,24 +21,27 @@ import {
   CheckCircle2,
   AlertTriangle,
   ExternalLink,
+  KeyRound,
 } from "lucide-react";
 import ModelCard, { REPO_URL } from "./ModelCard";
 
 const LIVE_DEMO_URL = "https://launch.vk-ai.online";
+const DEMO_EMAIL = "magikaiassistant@gmail.com";
+const DEMO_PASSWORD = "Demo@2026";
 
 const tagline =
   "A fully open-source, self-hosted agentic RAG system spanning 7 data modalities for finance-domain Q&A — every model runs on open weights (no proprietary API dependency), deployed on an AWS GPU with enforced tenant isolation, guardrails, and a CI-gated eval harness.";
 
 const featureBadges = [
   { icon: Package, text: "100% Open-Source Models" },
-  { icon: Cloud, text: "Self-Hosted on AWS · A10G GPU" },
+  { icon: Cloud, text: "Self-Hosted on AWS · L40S GPU" },
   { icon: Lock, text: "No Proprietary API Dependency" },
 ];
 
 const repoSignals = [
-  { icon: GitCommitHorizontal, text: "201 commits" },
+  { icon: GitCommitHorizontal, text: "42 tagged releases" },
   { icon: Scale, text: "MIT licensed" },
-  { icon: FileCode, text: "Docker · Makefile · CI" },
+  { icon: FileCode, text: "9 GitHub Actions workflows" },
 ];
 
 const techStack = [
@@ -53,18 +56,20 @@ const techStack = [
   { name: "Redis", color: "bg-red-500/15 text-red-400 border-red-500/30" },
   { name: "AWS (GPU)", color: "bg-orange-500/15 text-orange-400 border-orange-500/30" },
   { name: "Prometheus", color: "bg-amber-500/15 text-amber-400 border-amber-500/30" },
+  { name: "Grafana", color: "bg-violet-500/15 text-violet-400 border-violet-500/30" },
   { name: "OpenTelemetry", color: "bg-sky-500/15 text-sky-400 border-sky-500/30" },
 ];
 
 const highlights = [
   "Architected a per-modality-isolated ingestion pipeline (7 modalities: text, PDF, DOCX, XLSX, image, audio, video), each with independent ingest / chunk / embed / BM25 layers so a bug in one modality can't break another.",
   "Built an agentic query router that classifies each incoming query (RAG / web search / hybrid / direct / finance-specific) and dispatches to the correct tool via a typed ToolCall / ToolResult contract — no raw dicts cross module boundaries.",
-  "Implemented hybrid retrieval: BM25 + dense vector search (Qdrant) fused, re-ranked with a cross-encoder, then diversified with MMR before generation.",
+  "Implemented hybrid retrieval: BM25 + dense vector search (Qdrant) fused, re-ranked with a cross-encoder, then diversified with MMR before generation — 0.14s median / 0.23s p95 latency on a 56-query gold set.",
   "Enforced multi-tenant data isolation across all four storage layers (Qdrant, Redis, MongoDB, BM25 indices) with per-user JWT auth, Argon2 password hashing, Google OAuth (PKCE), and TOTP MFA.",
-  "Built a consolidated guardrail layer covering prompt-injection and PII detection across all 28 modality × pipeline-layer surfaces, plus output-side response filtering before any answer reaches the client.",
-  "Instrumented the full request path with Prometheus metrics, OpenTelemetry tracing, and structured JSON logging for production observability.",
-  "Built a CI-gated evaluation harness (retrieval + generation quality) that blocks merges on regression — not a one-off benchmark script.",
-  "Runs 10 resident ML models (LLM, embedder, reranker, vision, ASR, diarizer, OCR, NER) concurrently on a single A10G 24GB GPU through careful device / memory management.",
+  "Built a 12-module guardrail layer covering prompt-injection, jailbreak, and PII detection (Presidio) across all 28 modality × pipeline-layer surfaces — 100% injection recall (64/64) at 0.9% false positives against a 109-prompt red-team corpus.",
+  "Instrumented the full request path with Prometheus metrics, Grafana dashboards, OpenTelemetry tracing, and structured JSON logging for production observability.",
+  "Built a CI-gated evaluation harness — 30 metrics versioned in MLflow by Git SHA and prompt version (RAGAS, DeepEval, LLM-as-a-Judge) — backed by 2,247 automated tests that block merges on regression.",
+  "Runs 17 open-source models (~25GB of weights) concurrently on a single 48GB NVIDIA L40S GPU under an explicit VRAM budget, serving a quantized Qwen2.5-14B GGUF model via llama.cpp — no third-party LLM API in the request path.",
+  "Deployed on AWS (EC2 GPU, Docker Compose, Caddy TLS, SSM secrets) across 9 GitHub Actions workflows with zero-downtime releases, auto-rollback, and Lambda-driven GPU scale-to-zero — the same scale-to-zero behind the wake-up delay on the live demo above.",
 ];
 
 // Retrieval & routing only — generation quality, safety, and finance fidelity are
@@ -515,6 +520,21 @@ export default function Projects() {
                 <p className="text-[10px] text-[var(--text-secondary)]/60 whitespace-nowrap">
                   Self-hosted GPU — first load may take a minute to wake
                 </p>
+                <div className="text-right rounded-lg border border-[var(--border-color)] bg-[var(--bg-primary)] px-3 py-2">
+                  <p className="flex items-center justify-end gap-1.5 text-[10px] font-mono font-semibold uppercase tracking-wider text-indigo-400 mb-1">
+                    <KeyRound size={11} />
+                    Demo Login
+                  </p>
+                  <p className="text-[11px] font-mono text-[var(--text-primary)] whitespace-nowrap">
+                    {DEMO_EMAIL}
+                  </p>
+                  <p className="text-[11px] font-mono text-[var(--text-primary)] whitespace-nowrap">
+                    {DEMO_PASSWORD}
+                  </p>
+                  <p className="text-[10px] text-[var(--text-secondary)]/60 mt-1 whitespace-nowrap">
+                    Pre-loaded with sample files &amp; chat history
+                  </p>
+                </div>
               </div>
             </div>
 

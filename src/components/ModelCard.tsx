@@ -20,11 +20,12 @@ export const REPO_URL =
   "https://github.com/vjkarthik98/MULTIMODAL-AGENTIC-RAG-INTEGRATED-KNOWLEDGE-AI-ASSISTANT";
 
 const modelDetails = [
+  { label: "Version", value: "v1.0.0" },
   { label: "System", value: "Retrieval-augmented generation, agentic multi-modal, finance-domain" },
-  { label: "Core LLM", value: "Mistral-7B-Instruct (GGUF, Q4_K_M quantized) via llama.cpp" },
-  { label: "Retrieval", value: "BGE-large-en-v1.5 embeddings + BGE-reranker-large + Qdrant + BM25" },
+  { label: "Core LLM", value: "Qwen2.5-14B-Instruct (GGUF, quantized) via llama.cpp" },
+  { label: "Retrieval", value: "BGE embeddings + BGE cross-encoder reranker + Qdrant hybrid search (BM25 + dense) + MMR" },
   { label: "License", value: "Fully open-source / open-weights stack — no proprietary API dependency" },
-  { label: "Deployment", value: "Self-hosted on AWS (A10G 24GB GPU) · llama.cpp · Docker" },
+  { label: "Deployment", value: "Self-hosted on AWS (NVIDIA L40S 48GB GPU) · llama.cpp · Docker" },
 ];
 
 const modalities = [

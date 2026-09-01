@@ -2,59 +2,103 @@
 
 import { motion } from "framer-motion";
 
+// Sourced from MAGIK's own dependency manifests and CI/CD pipelines — every
+// chip here maps to a tool actually used in the project, not a generic list.
 const skillCategories = [
   {
-    category: "Languages",
+    category: "Generative AI & LLMs",
     color: "border-indigo-500/40 bg-indigo-500/5",
     accent: "text-indigo-400",
-    skills: ["Python", "TypeScript", "JavaScript", "Bash"],
+    skills: [
+      "RAG",
+      "Agentic AI",
+      "LLM Inference (llama.cpp)",
+      "Prompt Engineering",
+      "LangChain",
+      "Hugging Face Transformers",
+      "GGUF Quantization",
+    ],
   },
   {
-    category: "Generative AI & ML",
+    category: "Retrieval & Vector Search",
     color: "border-purple-500/40 bg-purple-500/5",
     accent: "text-purple-400",
     skills: [
-      "PyTorch",
-      "TensorFlow",
-      "Hugging Face",
-      "LangChain",
-      "LlamaIndex",
-      "Sentence Transformers",
-      "Prompt Engineering",
-      "NLP",
+      "Qdrant",
+      "Hybrid Search (BM25 + Dense)",
+      "Cross-Encoder Reranking",
+      "BGE Embeddings",
+      "Maximal Marginal Relevance (MMR)",
     ],
   },
   {
-    category: "Cloud & MLOps",
+    category: "Multimodal & Applied ML",
     color: "border-cyan-500/40 bg-cyan-500/5",
     accent: "text-cyan-400",
     skills: [
-      "AWS",
-      "AWS SageMaker",
-      "MongoDB Atlas",
-      "Docker",
-      "MLflow",
-      "GitHub Actions",
-      "Prometheus",
-      "OpenTelemetry",
+      "PyTorch",
+      "Vision-Language Models (Qwen2-VL)",
+      "Whisper ASR",
+      "OCR (Tesseract / EasyOCR)",
+      "CUDA / GPU Inference",
+    ],
+  },
+  // Pulled together from safety-relevant items that were previously scattered
+  // across other categories (Hallucination Detection, PII Detection) — this
+  // is what actually backs the guardrail/ethics claims made in the Model Card.
+  {
+    category: "Responsible AI & Safety",
+    color: "border-rose-500/40 bg-rose-500/5",
+    accent: "text-rose-400",
+    skills: [
+      "Prompt Injection Defense",
+      "Hallucination Detection",
+      "Groundedness / Citation Verification",
+      "PII Detection & Redaction (Presidio)",
+      "Toxicity / Jailbreak Detection",
+      "Multi-Tenant Data Isolation",
+      "OWASP LLM Top 10",
     ],
   },
   {
-    category: "Core Competencies",
+    category: "Backend & APIs",
     color: "border-emerald-500/40 bg-emerald-500/5",
     accent: "text-emerald-400",
     skills: [
-      "RAG Pipelines",
-      "Responsible AI",
-      "Data Structures & Algorithms",
-      "Agentic Systems",
+      "FastAPI",
+      "REST APIs",
+      "Pydantic v2",
+      "Async Python",
+      "JWT Auth",
+      "OAuth 2.0",
+      "MongoDB",
+      "Redis",
     ],
   },
   {
-    category: "Developer Tools",
+    category: "Cloud & Infrastructure",
     color: "border-amber-500/40 bg-amber-500/5",
     accent: "text-amber-400",
-    skills: ["FastAPI", "Qdrant", "Redis", "BM25", "Pandas", "NumPy", "Git", "PyMuPDF", "OpenCV", "Whisper"],
+    skills: [
+      "AWS (EC2 GPU, Lambda, SSM)",
+      "Docker",
+      "Docker Compose",
+      "Terraform",
+      "GitHub Actions CI/CD",
+      "Scale-to-Zero Architecture",
+    ],
+  },
+  {
+    category: "Observability & MLOps",
+    color: "border-sky-500/40 bg-sky-500/5",
+    accent: "text-sky-400",
+    skills: ["Prometheus", "Grafana", "MLflow", "RAGAS", "DeepEval", "LLM-as-a-Judge"],
+  },
+  {
+    category: "Languages & Tools",
+    color: "border-violet-500/40 bg-violet-500/5",
+    accent: "text-violet-400",
+    skills: ["Python", "SQL", "Git", "YAML", "System Design", "API Design"],
   },
 ];
 
@@ -77,7 +121,7 @@ export default function Skills() {
             <span className="gradient-text">Technologies</span>
           </h2>
           <p className="text-[var(--text-secondary)] mt-4 max-w-lg mx-auto">
-            A curated set of tools and frameworks I use to build production AI systems.
+            The stack behind MAGIK — from LLM inference to production infrastructure.
           </p>
         </motion.div>
 

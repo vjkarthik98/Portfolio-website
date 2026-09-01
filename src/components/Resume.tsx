@@ -1,9 +1,34 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { GraduationCap, Briefcase } from "lucide-react";
+import { GraduationCap, Briefcase, BookOpen, Target } from "lucide-react";
 
+// Most recent first — mirrors the LinkedIn Experience ordering.
 const timeline = [
+  {
+    icon: Briefcase,
+    color: "text-indigo-400",
+    dotColor: "bg-indigo-400",
+    label: "Engineering",
+    name: "Generative AI Engineer",
+    sub: "MAGIK AI Assistant (Independent Project) · March 2026 – August 2026",
+  },
+  {
+    icon: BookOpen,
+    color: "text-indigo-400",
+    dotColor: "bg-indigo-400",
+    label: "Professional Development",
+    name: "Generative AI Engineering Professional Development",
+    sub: "Full-time foundation in ML, deep learning, transformer architectures, and MLOps — three professional certificates, carried straight into production work · June 2025 – March 2026",
+  },
+  {
+    icon: Target,
+    color: "text-indigo-400",
+    dotColor: "bg-indigo-400",
+    label: "Analytical Foundation",
+    name: "Personal Goal Pursuit",
+    sub: "UPSC Civil Services Examination — four years synthesizing large volumes of unstructured source material under evaluation pressure · June 2021 – May 2025",
+  },
   {
     icon: GraduationCap,
     color: "text-cyan-400",
@@ -11,22 +36,6 @@ const timeline = [
     label: "Education",
     name: "Master of Arts in English",
     sub: "Bishop Heber College · 2021",
-  },
-  {
-    icon: Briefcase,
-    color: "text-indigo-400",
-    dotColor: "bg-indigo-400",
-    label: "Analytical Foundation",
-    name: "UPSC Civil Services Preparation",
-    sub: "Four years synthesizing large volumes of unstructured source material under evaluation pressure · June 2021 – May 2025",
-  },
-  {
-    icon: Briefcase,
-    color: "text-indigo-400",
-    dotColor: "bg-indigo-400",
-    label: "Engineering",
-    name: "Independent Generative AI Engineering",
-    sub: "Full-time self-directed mastery · June 2025 – Present",
   },
 ];
 

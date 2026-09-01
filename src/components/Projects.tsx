@@ -33,9 +33,10 @@ const tagline =
   "A fully open-source, self-hosted agentic RAG system spanning 7 data modalities for finance-domain Q&A — every model runs on open weights (no proprietary API dependency), deployed on an AWS GPU with enforced tenant isolation, guardrails, and a CI-gated eval harness.";
 
 const featureBadges = [
-  { icon: Package, text: "100% Open-Source Models" },
+  { icon: Package, text: "18 Open-Weight Models" },
   { icon: Cloud, text: "Self-Hosted on AWS · L40S GPU" },
   { icon: Lock, text: "No Proprietary API Dependency" },
+  { icon: BarChart3, text: "CI-Gated Evaluations" },
 ];
 
 const repoSignals = [
@@ -61,24 +62,54 @@ const techStack = [
 ];
 
 const highlights = [
-  "Architected a per-modality-isolated ingestion pipeline (7 modalities: text, PDF, DOCX, XLSX, image, audio, video), each with independent ingest / chunk / embed / BM25 layers so a bug in one modality can't break another.",
-  "Built an agentic query router that classifies each incoming query (RAG / web search / hybrid / direct / finance-specific) and dispatches to the correct tool via a typed ToolCall / ToolResult contract — no raw dicts cross module boundaries.",
+  "Architected a per-modality-isolated ingestion pipeline (7 modalities: text, PDF, DOCX, XLSX, image, audio, video) — each owns exactly 4 files, one per processing layer (ingest, chunk, embed, index), with no shared state, so a bug in one modality can't break another.",
+  "Built an agentic query router that classifies each incoming query (RAG / web search / hybrid / direct / finance-specific) and dispatches a single tool call via a typed ToolCall / ToolResult contract — a bounded dispatch, not an open-ended agent loop.",
   "Implemented hybrid retrieval: BM25 + dense vector search (Qdrant) fused, re-ranked with a cross-encoder, then diversified with MMR before generation — 0.14s median / 0.23s p95 latency on a 56-query gold set.",
-  "Enforced multi-tenant data isolation across all four storage layers (Qdrant, Redis, MongoDB, BM25 indices) with per-user JWT auth, Argon2 password hashing, Google OAuth (PKCE), and TOTP MFA.",
-  "Built a 12-module guardrail layer covering prompt-injection, jailbreak, and PII detection (Presidio) across all 28 modality × pipeline-layer surfaces — 100% injection recall (64/64) at 0.9% false positives against a 109-prompt red-team corpus.",
-  "Instrumented the full request path with Prometheus metrics, Grafana dashboards, OpenTelemetry tracing, and structured JSON logging for production observability.",
-  "Built a CI-gated evaluation harness — 30 metrics versioned in MLflow by Git SHA and prompt version (RAGAS, DeepEval, LLM-as-a-Judge) — backed by 2,247 automated tests that block merges on regression.",
-  "Runs 17 open-source models (~25GB of weights) concurrently on a single 48GB NVIDIA L40S GPU under an explicit VRAM budget, serving a quantized Qwen2.5-14B GGUF model via llama.cpp — no third-party LLM API in the request path.",
-  "Deployed on AWS (EC2 GPU, Docker Compose, Caddy TLS, SSM secrets) across 9 GitHub Actions workflows with zero-downtime releases, auto-rollback, and Lambda-driven GPU scale-to-zero — the same scale-to-zero behind the wake-up delay on the live demo above.",
+  "Enforced multi-tenant data isolation across all four storage layers (Qdrant, Redis, MongoDB, BM25 indices) with per-user JWT auth, Argon2 password hashing, Google OAuth (PKCE), TOTP MFA, and a Redis-backed token blacklist so logout and revocation actually take effect.",
+  "Built a 12-module guardrail layer (43 severity-tiered detection patterns) covering prompt-injection, jailbreak, and PII detection (Presidio) across all 28 modality × pipeline-layer surfaces — 100% attack recall (64/64, F1 0.994) against a 109-case red-team corpus, with all 10 OWASP LLM Top 10 categories addressed.",
+  "Instrumented the full request path with Prometheus metrics, Grafana dashboards, OpenTelemetry tracing exported to Tempo, and structured JSON logs aggregated in Loki under a shared trace ID.",
+  "Built an evaluation harness spanning 11 suites (retrieval, generation, hallucination, behavioral, OCR, audio, video, routing, end-to-end, multimodal, regression) with 3 enforced CI merge gates — retrieval, hallucination, and finance numeric fidelity — versioned in MLflow by Git SHA and prompt version, backed by 2,247 automated tests.",
+  "Runs 18 open-weight models (~42GB on disk, 0 fine-tuned) concurrently on a single 48GB NVIDIA L40S GPU under an explicit VRAM budget, serving a quantized Qwen2.5-14B GGUF model via llama.cpp. Every checkpoint is pinned to a commit hash with SHA-256 verification on each run — which is how a silently-missing 7B-parameter vision model got caught instead of shipped.",
+  "Deployed on AWS (EC2 GPU, Docker Compose, Caddy TLS, SSM secrets) across 9 GitHub Actions workflows with zero-downtime releases and auto-rollback. A Lambda wake gateway with scheduled idle-stop cuts hosting cost from ~$1,340/month always-on to ~$12/month fixed — a ~100x reduction, paid for with the 60–90s cold start on the live demo above.",
 ];
 
-// Retrieval & routing only — generation quality, safety, and finance fidelity are
-// broken out per modality below, which is a more honest view than one blended number.
-const qualityMetrics = [
-  { metric: "Recall@5", achieved: "0.509", threshold: "≥ 0.4835", status: "Pass", tone: "pass" },
-  { metric: "MRR", achieved: "0.356", threshold: "≥ 0.3380", status: "Pass", tone: "pass" },
-  { metric: "nDCG@10", achieved: "0.402", threshold: "≥ 0.3823", status: "Pass", tone: "pass" },
-  { metric: "Routing accuracy", achieved: "1.000", threshold: "≥ 0.917", status: "Pass", tone: "pass" },
+// Retrieval — enforced CI gate, n=56, System Card v1.0.1 (31 Aug 2026). Currently
+// OPEN: 3 of 6 metrics are breaching their floor on the latest staging run, left
+// red on purpose rather than re-baselined. See the callout below the table.
+const retrievalGate = [
+  { metric: "recall@5", baseline: "0.5089", floor: "0.4835", latest: "0.4464", tone: "risk", status: "Breach" },
+  { metric: "MRR", baseline: "0.3558", floor: "0.3380", latest: "0.3069", tone: "risk", status: "Breach" },
+  { metric: "nDCG@10", baseline: "0.4024", floor: "0.3823", latest: "0.3642", tone: "risk", status: "Breach" },
+  { metric: "recall@10", baseline: "0.5536", floor: "0.5259", latest: "0.5625", tone: "pass", status: "Pass" },
+  { metric: "hit rate", baseline: "0.6786", floor: "0.6447", latest: "0.8036", tone: "pass", status: "Pass" },
+  { metric: "context precision", baseline: "0.0268", floor: "0.0255", latest: "0.0321", tone: "pass", status: "Pass" },
+];
+
+// Hallucination — enforced CI gate, n=97, all 7 modalities, N=3-averaged. Passing.
+const hallucinationGate = [
+  { metric: "Fabrication rate", value: "0.0619", gate: "max 0.079", tone: "pass", note: "primary safety signal" },
+  { metric: "Hallucination rate", value: "0.2234", gate: "max 0.246", tone: "pass", note: "blended metric, kept for continuity" },
+  { metric: "Omission rate", value: "0.1822", gate: "not gated", tone: "neutral", note: "completeness signal, not fabrication" },
+];
+
+// Answer verification loop — v7 to v8, System Card Section 07.
+const verificationStats = [
+  { label: "Grounding Success", value: "0.9384" },
+  { label: "Citation Accuracy", value: "0.8587" },
+  { label: "Verification Latency", value: "p50 2.44s · p95 6.81s" },
+  { label: "Mean Retries / Query", value: "0.2898" },
+];
+
+// Generation & routing — informational, not gated. n=42, N=3-averaged, default
+// corpus only (text, PDF, DOCX) — image and spreadsheet rows are excluded from
+// this suite by default and must be requested explicitly.
+const generationInformational = [
+  { metric: "Answer correctness", value: "0.7083" },
+  { metric: "Answer relevancy", value: "0.6528" },
+  { metric: "Context recall", value: "0.8962" },
+  { metric: "Faithfulness", value: "0.5146" },
+  { metric: "Finance fidelity", value: "0.8266" },
+  { metric: "Route accuracy", value: "1.000" },
 ];
 
 // Generation quality & safety — LLM-judged (Qwen2.5-7B), n=14 gold rows/modality, captured 2026-08-20.
@@ -108,12 +139,14 @@ const toneStyles: Record<string, string> = {
   partial: "bg-amber-500/15 text-amber-400 border-amber-500/30",
   progress: "bg-sky-500/15 text-sky-400 border-sky-500/30",
   risk: "bg-rose-500/15 text-rose-400 border-rose-500/30",
+  neutral: "bg-[var(--border-color)]/40 text-[var(--text-secondary)] border-[var(--border-color)]",
 };
 
 const toneText: Record<string, string> = {
   pass: "text-emerald-400",
   partial: "text-amber-400",
   risk: "text-rose-400",
+  neutral: "text-[var(--text-secondary)]",
 };
 
 function VideoPlayer() {
@@ -209,17 +242,177 @@ function EvaluationResults() {
         Evaluation Results
       </h4>
       <p className="text-xs text-[var(--text-secondary)] mb-6 leading-relaxed">
-        Per-modality scorecard from a live run against the current codebase — n=14 gold rows per
-        modality, single run (not the N=3-averaged CI gate baseline that blocks merges), LLM-judged
-        via Qwen2.5-7B. Captured 2026-08-20. Reported as measured, including where it's weak.
+        Two sources: the enforced CI gates below are from the System Card (v1.0.1, compiled 31 Aug
+        2026), N=3-averaged after discarding the first run post-restart — a lesson learned when a
+        cold cache once cost every metric 15–20 points. The per-modality scorecard further down is a
+        single-run, more granular snapshot (n=14 gold rows/modality, LLM-judged via Qwen2.5-7B,
+        captured 20 Aug 2026). Reported as measured, including where it's weak or currently failing.
       </p>
+
+      {/* CI Gates — 3 enforced, from System Card v1.0.1 */}
+      <div className="mb-8">
+        <p className="text-xs font-mono font-medium text-[var(--text-secondary)] mb-3 uppercase tracking-widest">
+          CI Gates
+          <span className="opacity-70"> · 3 enforced, block any merge that regresses them</span>
+        </p>
+
+        {/* Retrieval — open/breaching */}
+        <div className="mb-4">
+          <div className="flex items-center justify-between mb-2">
+            <p className="text-xs text-[var(--text-secondary)] font-medium">Retrieval <span className="opacity-70">· n=56</span></p>
+            <span className="inline-block px-2 py-0.5 rounded text-[10px] border bg-rose-500/15 text-rose-400 border-rose-500/30 font-mono uppercase tracking-wide">
+              Open — 3 / 6 breaching
+            </span>
+          </div>
+          <div className="overflow-x-auto rounded-xl border border-[var(--border-color)]">
+            <table className="w-full text-sm">
+              <thead>
+                <tr className="bg-[var(--bg-primary)] text-left">
+                  <th className="px-4 py-2.5 font-mono text-xs font-semibold text-[var(--text-secondary)] uppercase tracking-wider">Metric</th>
+                  <th className="px-4 py-2.5 font-mono text-xs font-semibold text-[var(--text-secondary)] uppercase tracking-wider">Baseline</th>
+                  <th className="px-4 py-2.5 font-mono text-xs font-semibold text-[var(--text-secondary)] uppercase tracking-wider">Floor</th>
+                  <th className="px-4 py-2.5 font-mono text-xs font-semibold text-[var(--text-secondary)] uppercase tracking-wider">Latest</th>
+                  <th className="px-4 py-2.5 font-mono text-xs font-semibold text-[var(--text-secondary)] uppercase tracking-wider">Status</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-[var(--border-color)]">
+                {retrievalGate.map((row) => (
+                  <tr key={row.metric}>
+                    <td className="px-4 py-2.5 text-[var(--text-primary)] font-mono whitespace-nowrap">{row.metric}</td>
+                    <td className="px-4 py-2.5 font-mono text-[var(--text-secondary)]">{row.baseline}</td>
+                    <td className="px-4 py-2.5 font-mono text-[var(--text-secondary)]">{row.floor}</td>
+                    <td className={`px-4 py-2.5 font-mono font-semibold ${toneText[row.tone]}`}>{row.latest}</td>
+                    <td className="px-4 py-2.5">
+                      <span className={`inline-block px-1.5 py-0.5 rounded text-[10px] border ${toneStyles[row.tone]}`}>
+                        {row.status}
+                      </span>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+          <div className="mt-2 rounded-lg border border-rose-500/30 bg-rose-500/5 p-3">
+            <p className="text-xs text-[var(--text-secondary)] leading-relaxed">
+              <strong className="text-rose-400 font-semibold">Left red on purpose, not re-baselined.</strong>{" "}
+              Coverage improved (recall@10, hit rate, context precision all rose) while ranking degraded
+              (recall@5, MRR, nDCG@10 all fell) — not a simple &quot;got worse&quot; story. Two candidate
+              causes are under investigation: a metadata-backfill step in result fusion that isn&apos;t as
+              ranking-neutral as documented, or a staging-vs-production environment mismatch. The gate
+              stays open until the cause is attributed — re-baselining now would encode whichever cause
+              it is as &quot;expected,&quot; exactly what the gate exists to prevent.
+            </p>
+          </div>
+        </div>
+
+        {/* Hallucination — passing */}
+        <div className="mb-4">
+          <div className="flex items-center justify-between mb-2">
+            <p className="text-xs text-[var(--text-secondary)] font-medium">Hallucination <span className="opacity-70">· n=97, all 7 modalities</span></p>
+            <span className="inline-block px-2 py-0.5 rounded text-[10px] border bg-emerald-500/15 text-emerald-400 border-emerald-500/30 font-mono uppercase tracking-wide">
+              Passing
+            </span>
+          </div>
+          <div className="overflow-x-auto rounded-xl border border-[var(--border-color)]">
+            <table className="w-full text-sm">
+              <thead>
+                <tr className="bg-[var(--bg-primary)] text-left">
+                  <th className="px-4 py-2.5 font-mono text-xs font-semibold text-[var(--text-secondary)] uppercase tracking-wider">Metric</th>
+                  <th className="px-4 py-2.5 font-mono text-xs font-semibold text-[var(--text-secondary)] uppercase tracking-wider">Value</th>
+                  <th className="px-4 py-2.5 font-mono text-xs font-semibold text-[var(--text-secondary)] uppercase tracking-wider">Gate</th>
+                  <th className="px-4 py-2.5 font-mono text-xs font-semibold text-[var(--text-secondary)] uppercase tracking-wider">Meaning</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-[var(--border-color)]">
+                {hallucinationGate.map((row) => (
+                  <tr key={row.metric}>
+                    <td className="px-4 py-2.5 text-[var(--text-primary)] whitespace-nowrap">{row.metric}</td>
+                    <td className={`px-4 py-2.5 font-mono font-semibold ${toneText[row.tone]}`}>{row.value}</td>
+                    <td className="px-4 py-2.5 font-mono text-[var(--text-secondary)]">{row.gate}</td>
+                    <td className="px-4 py-2.5 text-[var(--text-secondary)] text-xs">{row.note}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+          <p className="text-xs text-[var(--text-secondary)] opacity-75 mt-2 italic">
+            The fabrication gate is set 10% above the observed maximum across four runs (0.0722), not
+            the three-run average — a fourth confirmation run caught a real, intermittent hallucination
+            on one audio query, so the gate reflects it instead of averaging it away.
+          </p>
+        </div>
+
+        {/* Finance numeric fidelity — described, enforced at merge */}
+        <div>
+          <div className="flex items-center justify-between mb-2">
+            <p className="text-xs text-[var(--text-secondary)] font-medium">Finance Numeric Fidelity</p>
+            <span className="inline-block px-2 py-0.5 rounded text-[10px] border bg-emerald-500/15 text-emerald-400 border-emerald-500/30 font-mono uppercase tracking-wide">
+              Enforced
+            </span>
+          </div>
+          <p className="text-xs text-[var(--text-secondary)] leading-relaxed rounded-xl border border-[var(--border-color)] p-3">
+            Every financial figure cited in an answer is matched against the literal text of the
+            retrieved chunks within a 0.5% tolerance, with no unit-scale bridging — &quot;1.2 billion&quot;
+            is not silently accepted as support for &quot;1,200.&quot; At least 95% of cited figures must be
+            traceable to retrieved context, checked at merge time on every pull request rather than
+            sampled from live traffic.
+          </p>
+        </div>
+      </div>
+
+      {/* Answer verification loop */}
+      <div className="mb-8">
+        <p className="text-xs font-mono font-medium text-[var(--text-secondary)] mb-3 uppercase tracking-widest">
+          Answer Verification
+          <span className="opacity-70"> · v7 → v8, informational</span>
+        </p>
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+          {verificationStats.map((s) => (
+            <div key={s.label} className="rounded-xl border border-[var(--border-color)] p-3">
+              <p className="text-[10px] font-mono uppercase tracking-wider text-[var(--text-secondary)] opacity-70 mb-1">
+                {s.label}
+              </p>
+              <p className="text-sm font-mono font-semibold text-[var(--text-primary)]">{s.value}</p>
+            </div>
+          ))}
+        </div>
+        <p className="text-xs text-[var(--text-secondary)] opacity-75 mt-2 italic leading-relaxed">
+          Grounding success rose from 0.86 to 0.94 and verification latency roughly halved (p50 4.42s
+          → 2.44s) after wiring the retry loop properly. Reported honestly, not as a headline: across
+          140 retried sessions, 88.6% changed nothing, 8.6% raised the score, and 1.4% flipped a
+          failing answer to a passing one — a safety net that rarely fires usefully, not a general
+          quality multiplier.
+        </p>
+      </div>
+
+      {/* Generation & routing — informational, not gated */}
+      <div className="mb-8">
+        <p className="text-xs font-mono font-medium text-[var(--text-secondary)] mb-3 uppercase tracking-widest">
+          Generation &amp; Routing
+          <span className="opacity-70"> · n=42, text/PDF/DOCX only, informational</span>
+        </p>
+        <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+          {generationInformational.map((m) => (
+            <div key={m.metric} className="rounded-xl border border-[var(--border-color)] p-3">
+              <p className="text-[10px] font-mono uppercase tracking-wider text-[var(--text-secondary)] opacity-70 mb-1">
+                {m.metric}
+              </p>
+              <p className="text-sm font-mono font-semibold text-[var(--text-primary)]">{m.value}</p>
+            </div>
+          ))}
+        </div>
+        <p className="text-xs text-[var(--text-secondary)] opacity-75 mt-2 italic">
+          Not CI-gated — routed through a live language-model judge, which makes re-baselining a
+          GPU-box exercise. Image and spreadsheet rows are excluded from this default run.
+        </p>
+      </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Generation Quality & Safety */}
         <div className="min-w-0">
           <p className="text-xs font-mono font-medium text-[var(--text-secondary)] mb-3 uppercase tracking-widest">
-            Generation Quality &amp; Safety
-            <span className="text-[var(--text-secondary)]/60"> · per modality</span>
+            Per-Modality Generation Quality &amp; Safety
+            <span className="opacity-70"> · per modality</span>
           </p>
           <div className="overflow-x-auto rounded-xl border border-[var(--border-color)]">
             <table className="w-full text-sm">
@@ -259,7 +452,7 @@ function EvaluationResults() {
               </tbody>
             </table>
           </div>
-          <p className="text-xs text-[var(--text-secondary)]/70 mt-2 italic">
+          <p className="text-xs text-[var(--text-secondary)] opacity-75 mt-2 italic">
             Correctness &amp; faithfulness: 0–1, higher is better. Hallucination: share of sampled
             responses with an unsupported claim, lower is better.
           </p>
@@ -268,8 +461,8 @@ function EvaluationResults() {
         {/* Finance Fidelity & Latency */}
         <div className="min-w-0">
           <p className="text-xs font-mono font-medium text-[var(--text-secondary)] mb-3 uppercase tracking-widest">
-            Finance Fidelity &amp; Latency
-            <span className="text-[var(--text-secondary)]/60"> · per modality</span>
+            Per-Modality Finance Fidelity &amp; Latency
+            <span className="opacity-70"> · per modality</span>
           </p>
           <div className="overflow-x-auto rounded-xl border border-[var(--border-color)]">
             <table className="w-full text-sm">
@@ -305,7 +498,7 @@ function EvaluationResults() {
               </tbody>
             </table>
           </div>
-          <p className="text-xs text-[var(--text-secondary)]/70 mt-2 italic">
+          <p className="text-xs text-[var(--text-secondary)] opacity-75 mt-2 italic">
             Finance fidelity: 0–1, higher is better. Latency: end-to-end generation time, lower is
             better.
           </p>
@@ -318,6 +511,16 @@ function EvaluationResults() {
           Where It Stands
         </p>
         <ul className="space-y-3">
+          <li className="flex gap-2.5 text-sm text-[var(--text-secondary)] leading-relaxed">
+            <AlertTriangle size={15} className="text-rose-400 shrink-0 mt-0.5" />
+            <span>
+              <strong className="text-[var(--text-primary)] font-semibold">
+                The retrieval CI gate is currently open.
+              </strong>{" "}
+              Three of six gated metrics are breaching their floor — see CI Gates above for the full
+              numbers and why it&apos;s deliberately not been re-baselined away.
+            </span>
+          </li>
           <li className="flex gap-2.5 text-sm text-[var(--text-secondary)] leading-relaxed">
             <CheckCircle2 size={15} className="text-emerald-400 shrink-0 mt-0.5" />
             <span>
@@ -371,55 +574,6 @@ function EvaluationResults() {
             </span>
           </li>
         </ul>
-      </div>
-
-      {/* CI Gate — Retrieval & Routing (secondary, de-emphasized) */}
-      <div className="mt-6">
-        <p className="text-xs font-mono font-medium text-[var(--text-secondary)] mb-3 uppercase tracking-widest">
-          CI Gate &mdash; Retrieval &amp; Routing
-          <span className="text-[var(--text-secondary)]/60"> · achieved vs. gate, blocks merges on regression</span>
-        </p>
-        <div className="overflow-x-auto rounded-xl border border-[var(--border-color)]">
-          <table className="w-full text-sm">
-            <thead>
-              <tr className="bg-[var(--bg-primary)] text-left">
-                <th className="px-4 py-2.5 font-mono text-xs font-semibold text-[var(--text-secondary)] uppercase tracking-wider">
-                  Metric
-                </th>
-                <th className="px-4 py-2.5 font-mono text-xs font-semibold text-[var(--text-secondary)] uppercase tracking-wider">
-                  Achieved
-                </th>
-                <th className="px-4 py-2.5 font-mono text-xs font-semibold text-[var(--text-secondary)] uppercase tracking-wider">
-                  Gate
-                </th>
-                <th className="px-4 py-2.5 font-mono text-xs font-semibold text-[var(--text-secondary)] uppercase tracking-wider">
-                  Status
-                </th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-[var(--border-color)]">
-              {qualityMetrics.map(({ metric, achieved, threshold, status, tone }) => (
-                <tr key={metric}>
-                  <td className="px-4 py-2.5 text-[var(--text-primary)]">{metric}</td>
-                  <td className={`px-4 py-2.5 font-mono ${toneText[tone]}`}>{achieved}</td>
-                  <td className="px-4 py-2.5 font-mono text-[var(--text-secondary)]">{threshold}</td>
-                  <td className="px-4 py-2.5">
-                    <span
-                      className={`inline-block px-1.5 py-0.5 rounded text-[10px] border ${toneStyles[tone]}`}
-                    >
-                      {status}
-                    </span>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-        <p className="text-xs text-[var(--text-secondary)]/70 mt-2 italic">
-          Production CI baseline (n=56, 2026-07-28). All figures above were captured on a
-          verified-healthy server after resolving a mid-run process fault unrelated to the
-          modalities under test.
-        </p>
       </div>
     </div>
   );
@@ -517,8 +671,8 @@ export default function Projects() {
                     GitHub
                   </motion.a>
                 </div>
-                <p className="text-[10px] text-[var(--text-secondary)]/60 whitespace-nowrap">
-                  Self-hosted GPU — first load may take a minute to wake
+                <p className="text-[10px] text-[var(--text-secondary)] opacity-75 whitespace-nowrap">
+                  Self-hosted GPU, scale-to-zero — 60–90s cold start on first click
                 </p>
                 <div className="text-right rounded-lg border border-[var(--border-color)] bg-[var(--bg-primary)] px-3 py-2">
                   <p className="flex items-center justify-end gap-1.5 text-[10px] font-mono font-semibold uppercase tracking-wider text-indigo-400 mb-1">
@@ -531,7 +685,7 @@ export default function Projects() {
                   <p className="text-[11px] font-mono text-[var(--text-primary)] whitespace-nowrap">
                     {DEMO_PASSWORD}
                   </p>
-                  <p className="text-[10px] text-[var(--text-secondary)]/60 mt-1 whitespace-nowrap">
+                  <p className="text-[10px] text-[var(--text-secondary)] opacity-75 mt-1 whitespace-nowrap">
                     Pre-loaded with sample files &amp; chat history
                   </p>
                 </div>

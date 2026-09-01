@@ -20,12 +20,13 @@ export const REPO_URL =
   "https://github.com/vjkarthik98/MULTIMODAL-AGENTIC-RAG-INTEGRATED-KNOWLEDGE-AI-ASSISTANT";
 
 const modelDetails = [
-  { label: "Version", value: "v1.0.0" },
-  { label: "System", value: "Retrieval-augmented generation, agentic multi-modal, finance-domain" },
-  { label: "Core LLM", value: "Qwen2.5-14B-Instruct (GGUF, quantized) via llama.cpp" },
+  { label: "Version", value: "v1.0.1 · released 30 Aug 2026" },
+  { label: "System", value: "Retrieval-augmented generation, agentic multi-modal, finance-domain — a compound system, not one trained model" },
+  { label: "Core LLM", value: "Qwen2.5-14B-Instruct (GGUF, Q4_K_M quantized) via llama.cpp" },
+  { label: "Models", value: "18 open-weight checkpoints · ~42GB on disk · 0 fine-tuned — each pinned to a commit hash, SHA-256 verified on every run" },
   { label: "Retrieval", value: "BGE embeddings + BGE cross-encoder reranker + Qdrant hybrid search (BM25 + dense) + MMR" },
-  { label: "License", value: "Fully open-source / open-weights stack — no proprietary API dependency" },
-  { label: "Deployment", value: "Self-hosted on AWS (NVIDIA L40S 48GB GPU) · llama.cpp · Docker" },
+  { label: "License", value: "MIT — fully open-weights stack, no proprietary API dependency" },
+  { label: "Deployment", value: "Self-hosted on AWS (NVIDIA L40S 48GB GPU) · Lambda wake gateway, scale-to-zero · Terraform · Docker" },
 ];
 
 const modalities = [
@@ -50,14 +51,18 @@ const sampleDatasets = [
 
 const limitations = [
   "Not a general-purpose open-domain chatbot — tuned and evaluated specifically for finance-document retrieval and numeric fidelity.",
-  "Audio and video pipelines currently perform below the text/PDF/XLSX baseline (see Evaluation Results) and are actively being hardened.",
-  "Single-dispatch agent (classify → route → execute) — not yet an iterative multi-step tool-chaining loop.",
+  "Retrieval CI gate is currently open: 3 of 6 gated metrics (recall@5, MRR, nDCG@10) are breaching their floor on the latest run. Left red and under active root-cause investigation rather than re-baselined away (see Evaluation Results).",
+  "A real, low-frequency hallucination remains open on dense audio transcripts — the model occasionally conflates two unrelated numeric figures from the same document. Root-caused, reflected in the CI gate, not yet fixed.",
+  "Audio and video pipelines still trail text/PDF/XLSX on generation quality (see Evaluation Results) and are actively being hardened.",
+  "Single-dispatch agent (classify → route → execute) — a bounded tool call, not an open-ended agent loop.",
+  "Single-region, single-instance deployment with no horizontal scaling or failover — a deliberate ~100x cost tradeoff (scale-to-zero) for a demonstration system, not production-scale infrastructure.",
 ];
 
 const ethics = [
-  "Guardrail layer treats all ingested content (documents, audio, web results) as untrusted data, never as instructions — mitigates prompt injection from uploaded files.",
-  "No user data crosses tenant boundaries at any storage layer (enforced, not just assumed, at Qdrant / Redis / MongoDB / BM25).",
-  "Every guardrail violation is written to an audit log.",
+  "No external inference provider — document and query content never leaves the deployment boundary for a third-party LLM API. This is the system's single largest privacy property.",
+  "Guardrail layer treats all ingested content (documents, audio, web results) as untrusted data, never as instructions — PII detection (Presidio) and toxicity screening (Detoxify) run across ingestion and output.",
+  "No user data crosses tenant boundaries at any storage layer — enforced independently at Qdrant, Redis, MongoDB, and BM25, never delegated upstream to a shared filter.",
+  "Every guardrail violation is written to a persistent audit log, and every cited number is traced back to source text via a finance-fidelity check rather than trusted on the model's word.",
 ];
 
 export default function ModelCard() {
@@ -112,7 +117,7 @@ export default function ModelCard() {
       {/* Input modalities */}
       <div className="px-6 py-4 border-b border-[var(--border-color)]">
         <p className="text-xs font-mono font-medium text-[var(--text-secondary)] mb-3 uppercase tracking-widest">
-          Input Modalities <span className="text-[var(--text-secondary)]/60">· 7</span>
+          Input Modalities <span className="opacity-70">· 7</span>
         </p>
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 justify-items-stretch">
           {modalities.map(({ icon: Icon, label, color }) => (
@@ -132,7 +137,7 @@ export default function ModelCard() {
         <p className="text-xs font-mono font-medium text-[var(--text-secondary)] mb-3 uppercase tracking-widest flex items-center gap-2">
           <Database size={12} className="text-cyan-400 shrink-0" />
           <span className="min-w-0">
-            Sample Datasets <span className="text-[var(--text-secondary)]/60 normal-case">· real-world test data, 7 modalities</span>
+            Sample Datasets <span className="opacity-70 normal-case">· real-world test data, 7 modalities</span>
           </span>
         </p>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
@@ -154,7 +159,7 @@ export default function ModelCard() {
             </a>
           ))}
         </div>
-        <p className="text-[11px] text-[var(--text-secondary)]/60 mt-2 italic leading-relaxed">
+        <p className="text-[11px] text-[var(--text-secondary)] opacity-75 mt-2 italic leading-relaxed">
           Hosted on Google Drive — each card opens its file directly in a new tab.
         </p>
       </div>

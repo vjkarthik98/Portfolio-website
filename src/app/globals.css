@@ -13,6 +13,9 @@
   --border-color: #e2e8f0;
   --accent: #6366f1;
   --accent-cyan: #06b6d4;
+  /* Translucent nav backdrop. Defined as a full rgba() because Tailwind cannot
+     apply an opacity modifier (bg-[var(--x)]/90) to a var-based color. */
+  --nav-bg: rgba(255, 255, 255, 0.92);
 }
 
 .dark {
@@ -24,6 +27,7 @@
   --border-color: #1e293b;
   --accent: #818cf8;
   --accent-cyan: #22d3ee;
+  --nav-bg: rgba(8, 12, 26, 0.92);
 }
 
 * {

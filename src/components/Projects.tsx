@@ -627,6 +627,15 @@ export default function Projects() {
                   <br className="hidden sm:block" />
                   Integrated Knowledge AI Assistant (MAGIK)
                 </h3>
+                <a
+                  href={REPO_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1.5 mt-2 text-xs font-mono text-[var(--text-secondary)] hover:text-indigo-400 transition-colors break-all"
+                >
+                  <Github size={12} className="shrink-0" />
+                  vjkarthik98/MULTIMODAL-AGENTIC-RAG-INTEGRATED-KNOWLEDGE-AI-ASSISTANT
+                </a>
                 <p className="text-sm text-[var(--text-secondary)] leading-relaxed mt-3">
                   {tagline}
                 </p>
@@ -647,30 +656,17 @@ export default function Projects() {
 
               {/* Links */}
               <div className="flex flex-col items-end gap-2 shrink-0">
-                <div className="flex items-center gap-2">
-                  <motion.a
-                    href={LIVE_DEMO_URL}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-gradient-to-r from-indigo-600 to-cyan-500 text-white text-sm font-semibold shadow-lg hover:shadow-indigo-500/25 transition-all"
-                    whileHover={{ scale: 1.04 }}
-                    whileTap={{ scale: 0.97 }}
-                  >
-                    <ExternalLink size={15} />
-                    Live Demo
-                  </motion.a>
-                  <motion.a
-                    href={REPO_URL}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 px-4 py-2 rounded-xl border border-purple-500/30 bg-purple-500/10 text-sm text-purple-400 hover:bg-purple-500/15 hover:border-purple-500/50 transition-all font-medium"
-                    whileHover={{ scale: 1.04 }}
-                    whileTap={{ scale: 0.97 }}
-                  >
-                    <Github size={15} />
-                    GitHub
-                  </motion.a>
-                </div>
+                <motion.a
+                  href={LIVE_DEMO_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-gradient-to-r from-indigo-600 to-cyan-500 text-white text-sm font-semibold shadow-lg hover:shadow-indigo-500/25 transition-all"
+                  whileHover={{ scale: 1.04 }}
+                  whileTap={{ scale: 0.97 }}
+                >
+                  <ExternalLink size={15} />
+                  Live Demo
+                </motion.a>
                 <p className="text-[10px] text-[var(--text-secondary)] opacity-75 whitespace-nowrap">
                   Self-hosted GPU, scale-to-zero — 60–90s cold start on first click
                 </p>

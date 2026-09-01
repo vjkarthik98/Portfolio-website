@@ -69,34 +69,29 @@ export default function ModelCard() {
   return (
     <div className="rounded-2xl border border-[var(--border-color)] bg-[var(--bg-card)] overflow-hidden">
       {/* HuggingFace-style header */}
-      <div className="px-6 py-4 border-b border-[var(--border-color)] bg-gradient-to-r from-indigo-500/5 to-cyan-500/5 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
-        <div className="flex items-center gap-3 min-w-0">
-          <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-yellow-400 to-orange-400 flex items-center justify-center text-white font-bold text-xs shadow-md shrink-0">
+      <div className="px-6 py-5 border-b border-[var(--border-color)] bg-gradient-to-r from-indigo-500/5 to-cyan-500/5">
+        <a
+          href="/magik-system-card.pdf"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Open the MAGIK System Card, PDF, 14 pages, in a new tab"
+          title="Open the System Card (PDF)"
+          className="group flex items-center gap-3 min-w-0"
+        >
+          <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-yellow-400 to-orange-400 flex items-center justify-center text-white font-bold text-sm shadow-md shrink-0">
             🤗
           </div>
           <div className="min-w-0">
-            <p className="text-xs text-[var(--text-secondary)] font-mono">Model Card</p>
-            <a
-              href={REPO_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-sm font-mono font-semibold text-[var(--text-primary)] break-all hover:text-indigo-400 transition-colors"
-            >
-              vjkarthik98/
-              <span className="text-indigo-400">
-                MULTIMODAL-AGENTIC-RAG-INTEGRATED-KNOWLEDGE-AI-ASSISTANT
-              </span>
-            </a>
+            <p className="text-lg sm:text-xl font-bold text-[var(--text-primary)] leading-tight group-hover:text-indigo-400 transition-colors">
+              Model Card
+            </p>
+            <span className="inline-flex items-center gap-1 text-xs font-mono text-indigo-400 group-hover:text-cyan-400 transition-colors">
+              <FileText size={11} className="shrink-0" />
+              System Card v1.0.1 (PDF, 14pp)
+              <ExternalLink size={9} className="shrink-0" />
+            </span>
           </div>
-        </div>
-        <div className="flex flex-row flex-wrap sm:flex-col items-start sm:items-stretch gap-1.5 sm:gap-1 shrink-0">
-          <span className="px-2 py-1 text-xs text-center rounded-full bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 font-mono whitespace-nowrap">
-            self-hosted
-          </span>
-          <span className="px-2 py-1 text-xs text-center rounded-full bg-indigo-500/15 text-indigo-400 border border-indigo-500/30 font-mono whitespace-nowrap">
-            open-weights
-          </span>
-        </div>
+        </a>
       </div>
 
       {/* Model Details */}

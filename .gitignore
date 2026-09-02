@@ -39,7 +39,5 @@ CLAUDE.md
 /public/datasets/*
 !/public/datasets/.gitkeep
 
-# Uncompressed source recording — the committed asset is the 720p public/demo.mp4.
-# Matched by the space in the filename, since git on Windows ignores case
-# (a "Demo*.mp4" pattern would also swallow demo.mp4 itself).
-/public/*[ ]*.mp4
+# Demo video now hosted on Vercel Blob (see Projects.tsx) — no mp4 is committed to git.
+/public/*.mp4

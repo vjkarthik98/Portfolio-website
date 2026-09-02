@@ -71,6 +71,9 @@ const highlights = [
   "Deployed on AWS with automated CI/CD and a cost-saving design that shuts the GPU down when idle, cutting hosting costs roughly 100x (from ~$1,340/month to ~$12/month) versus running it continuously.",
 ];
 
+const DEMO_VIDEO_URL =
+  "https://1oqjmnwzoo7lxnab.public.blob.vercel-storage.com/Demo.mp4";
+
 function VideoPlayer() {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [playing, setPlaying] = useState(false);
@@ -108,9 +111,9 @@ function VideoPlayer() {
         preload="metadata"
         playsInline
       >
-        <source src="/demo.mp4" type="video/mp4" />
+        <source src={DEMO_VIDEO_URL} type="video/mp4" />
         Your browser doesn&apos;t support embedded video.{" "}
-        <a href="/demo.mp4" className="underline">Download the demo</a> instead.
+        <a href={DEMO_VIDEO_URL} className="underline">Download the demo</a> instead.
       </video>
 
       {/* Click-to-play overlay — hidden once playback starts */}

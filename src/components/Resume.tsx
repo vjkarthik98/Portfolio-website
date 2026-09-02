@@ -9,7 +9,6 @@ const timeline = [
     icon: Briefcase,
     color: "text-indigo-400",
     dotColor: "bg-indigo-400",
-    label: "Engineering",
     name: "Generative AI Engineer",
     sub: "MAGIK AI Assistant (Independent Project) · March 2026 – August 2026",
   },
@@ -17,7 +16,6 @@ const timeline = [
     icon: BookOpen,
     color: "text-indigo-400",
     dotColor: "bg-indigo-400",
-    label: "Professional Development",
     name: "Generative AI Engineering Professional Development",
     sub: "Full-time foundation in ML, deep learning, transformer architectures, and MLOps — three professional certificates, carried straight into production work · June 2025 – March 2026",
   },
@@ -25,7 +23,6 @@ const timeline = [
     icon: Target,
     color: "text-indigo-400",
     dotColor: "bg-indigo-400",
-    label: "Analytical Foundation",
     name: "Personal Goal Pursuit",
     sub: "UPSC Civil Services Examination — four years synthesizing large volumes of unstructured source material under evaluation pressure · June 2021 – May 2025",
   },
@@ -33,7 +30,6 @@ const timeline = [
     icon: GraduationCap,
     color: "text-cyan-400",
     dotColor: "bg-cyan-400",
-    label: "Education",
     name: "Master of Arts in English",
     sub: "Bishop Heber College · 2021",
   },
@@ -74,22 +70,19 @@ export default function Resume() {
               <div className="absolute left-1.5 md:left-1/2 md:-translate-x-1/2 top-0 bottom-0 w-px bg-[var(--border-color)]" />
 
               <div className="space-y-8 md:space-y-10">
-                {timeline.map(({ icon: Icon, color, dotColor, label, name, sub }, i) => {
+                {timeline.map(({ icon: Icon, color, dotColor, name, sub }, i) => {
                   const isLeft = i % 2 === 0;
                   const entry = (
                     <>
                       <span
-                        className={`inline-flex items-center gap-1.5 text-xs font-mono font-semibold uppercase tracking-widest mb-1 ${color} ${
+                        className={`inline-flex items-center gap-1.5 text-base font-bold text-[var(--text-primary)] leading-snug ${
                           isLeft ? "md:flex-row-reverse" : ""
                         }`}
                       >
-                        <Icon size={11} />
-                        {label}
-                      </span>
-                      <p className="text-sm font-semibold text-[var(--text-primary)] leading-snug">
+                        <Icon size={15} className={`${color} shrink-0`} />
                         {name}
-                      </p>
-                      <p className="text-xs text-[var(--text-secondary)] mt-0.5 leading-relaxed">
+                      </span>
+                      <p className="text-xs text-[var(--text-secondary)] mt-1 leading-relaxed">
                         {sub}
                       </p>
                     </>

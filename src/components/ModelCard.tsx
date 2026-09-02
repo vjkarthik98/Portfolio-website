@@ -50,12 +50,12 @@ const sampleDatasets = [
 ];
 
 const limitations = [
-  "Not a general-purpose open-domain chatbot — tuned and evaluated specifically for finance-document retrieval and numeric fidelity.",
-  "Retrieval CI gate is currently open: 3 of 6 gated metrics (recall@5, MRR, nDCG@10) are breaching their floor on the latest run. Left red and under active root-cause investigation rather than re-baselined away (see Evaluation Results).",
-  "A real, low-frequency hallucination remains open on dense audio transcripts — the model occasionally conflates two unrelated numeric figures from the same document. Root-caused, reflected in the CI gate, not yet fixed.",
-  "Audio and video pipelines still trail text/PDF/XLSX on generation quality (see Evaluation Results) and are actively being hardened.",
-  "Single-dispatch agent (classify → route → execute) — a bounded tool call, not an open-ended agent loop.",
-  "Single-region, single-instance deployment with no horizontal scaling or failover — a deliberate ~100x cost tradeoff (scale-to-zero) for a demonstration system, not production-scale infrastructure.",
+  "Built and evaluated specifically for finance-document Q&A — not a general-purpose open-domain chatbot.",
+  "Retrieval quality is currently under active investigation on one internal benchmark; not yet where it needs to be, and being worked on before the next release. Full detail in the System Card.",
+  "A rare, root-caused hallucination on dense audio transcripts is still open — the model can occasionally mix up two similar numbers from the same document.",
+  "Audio and video answer quality currently trails text, PDF, and spreadsheet inputs, and is the active focus of the next hardening pass.",
+  "Executes one tool call per query (classify → route → execute) — a bounded action, not an open-ended autonomous agent.",
+  "Runs as a single-region demo deployment with no horizontal scaling or failover, a deliberate cost tradeoff (~100x cheaper) for a portfolio project rather than production-scale infrastructure.",
 ];
 
 const ethics = [
@@ -74,7 +74,7 @@ export default function ModelCard() {
           href="/magik-system-card.pdf"
           target="_blank"
           rel="noopener noreferrer"
-          aria-label="Open the MAGIK System Card, PDF, 14 pages, in a new tab"
+          aria-label="Open the MAGIK System Card, PDF, 15 pages, in a new tab"
           title="Open the System Card (PDF)"
           className="group flex items-center gap-3 min-w-0"
         >
@@ -87,7 +87,7 @@ export default function ModelCard() {
             </p>
             <span className="inline-flex items-center gap-1 text-xs font-mono text-indigo-400 group-hover:text-cyan-400 transition-colors">
               <FileText size={11} className="shrink-0" />
-              System Card v1.0.1 (PDF, 14pp)
+              System Card v1.0.1 (PDF, 15pp)
               <ExternalLink size={9} className="shrink-0" />
             </span>
           </div>

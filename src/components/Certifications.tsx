@@ -5,6 +5,15 @@ import { Award, ExternalLink } from "lucide-react";
 
 const certifications = [
   {
+    title: "Mathematics — Basics to Advanced for Data Science and GenAI",
+    issuer: "Udemy",
+    icon: "📐",
+    color: "from-amber-600 to-orange-700",
+    badgeColor: "bg-amber-500/10 text-amber-400 border-amber-500/30",
+    tags: ["Linear Algebra", "Statistics", "Calculus", "Data Science", "GenAI"],
+    link: "https://ude.my/UC-962275cb-1791-4d73-8de9-2ee4b0af4dc0",
+  },
+  {
     title: "IBM Generative AI Engineering Professional Certificate",
     issuer: "IBM · Coursera",
     icon: "🏆",

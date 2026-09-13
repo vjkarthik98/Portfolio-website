@@ -38,7 +38,7 @@ const featureBadges = [
 ];
 
 const repoSignals = [
-  { icon: GitCommitHorizontal, text: "42 tagged releases" },
+  { icon: GitCommitHorizontal, text: "43 tagged releases" },
   { icon: Scale, text: "MIT licensed" },
   { icon: FileCode, text: "9 GitHub Actions workflows" },
 ];

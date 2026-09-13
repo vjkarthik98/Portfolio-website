@@ -323,7 +323,7 @@ export default function Projects() {
             {/* Right: Model Card */}
             <div className="p-6 sm:p-8 min-w-0">
               <h4 className="text-sm font-semibold text-[var(--text-primary)] uppercase tracking-widest font-mono mb-5">
-                Model Card
+                System Card
               </h4>
               <ModelCard />
             </div>

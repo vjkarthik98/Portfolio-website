@@ -74,7 +74,7 @@ export default function ModelCard() {
           href="/magik-system-card.pdf"
           target="_blank"
           rel="noopener noreferrer"
-          aria-label="Open the MAGIK System Card, PDF, 15 pages, in a new tab"
+          aria-label="Open the MAGIK System Card, PDF, in a new tab"
           title="Open the System Card (PDF)"
           className="group flex items-center gap-3 min-w-0"
         >
@@ -83,11 +83,11 @@ export default function ModelCard() {
           </div>
           <div className="min-w-0">
             <p className="text-lg sm:text-xl font-bold text-[var(--text-primary)] leading-tight group-hover:text-indigo-400 transition-colors">
-              Model Card
+              System Card
             </p>
             <span className="inline-flex items-center gap-1 text-xs font-mono text-indigo-400 group-hover:text-cyan-400 transition-colors">
               <FileText size={11} className="shrink-0" />
-              System Card v1.0.2 (PDF, 15pp)
+              System Card v1.0.2 (PDF)
               <ExternalLink size={9} className="shrink-0" />
             </span>
           </div>

@@ -20,7 +20,7 @@ export const REPO_URL =
   "https://github.com/vjkarthik98/MULTIMODAL-AGENTIC-RAG-INTEGRATED-KNOWLEDGE-AI-ASSISTANT";
 
 const modelDetails = [
-  { label: "Version", value: "v1.0.1 · released 30 Aug 2026" },
+  { label: "Version", value: "v1.0.2 · released 12 Sep 2026" },
   { label: "System", value: "Retrieval-augmented generation, agentic multi-modal, finance-domain — a compound system, not one trained model" },
   { label: "Core LLM", value: "Qwen2.5-14B-Instruct (GGUF, Q4_K_M quantized) via llama.cpp" },
   { label: "Models", value: "18 open-weight checkpoints · ~42GB on disk · 0 fine-tuned — each pinned to a commit hash, SHA-256 verified on every run" },
@@ -87,7 +87,7 @@ export default function ModelCard() {
             </p>
             <span className="inline-flex items-center gap-1 text-xs font-mono text-indigo-400 group-hover:text-cyan-400 transition-colors">
               <FileText size={11} className="shrink-0" />
-              System Card v1.0.1 (PDF, 15pp)
+              System Card v1.0.2 (PDF, 15pp)
               <ExternalLink size={9} className="shrink-0" />
             </span>
           </div>

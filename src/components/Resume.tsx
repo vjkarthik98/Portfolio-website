@@ -9,22 +9,22 @@ const timeline = [
     icon: Briefcase,
     color: "text-indigo-400",
     dotColor: "bg-indigo-400",
-    name: "Generative AI Engineer",
-    sub: "MAGIK AI Assistant (Independent Project) · March 2026 – August 2026",
+    name: "Self Independent Project",
+    sub: "MAGIK AI Assistant · March 2026 – October 2026",
   },
   {
     icon: BookOpen,
     color: "text-indigo-400",
     dotColor: "bg-indigo-400",
     name: "Generative AI Engineering Professional Development",
-    sub: "Full-time foundation in ML, deep learning, transformer architectures, and MLOps — three professional certificates, carried straight into production work · June 2025 – March 2026",
+    sub: "Full-time study across three professional certificates: Generative AI engineering (LLMs, transformers, RAG, LangChain, Hugging Face), MLOps (AWS, MLflow), and Responsible AI (privacy, safety, ethics) — carried straight into production work · June 2025 – March 2026",
   },
   {
     icon: Target,
     color: "text-indigo-400",
     dotColor: "bg-indigo-400",
     name: "Personal Goal Pursuit",
-    sub: "UPSC Civil Services Examination — four years synthesizing large volumes of unstructured source material under evaluation pressure · June 2021 – May 2025",
+    sub: "UPSC Civil Services Examination · June 2021 – May 2025",
   },
   {
     icon: GraduationCap,
@@ -32,6 +32,13 @@ const timeline = [
     dotColor: "bg-cyan-400",
     name: "Master of Arts in English",
     sub: "Bishop Heber College · 2021",
+  },
+  {
+    icon: GraduationCap,
+    color: "text-cyan-400",
+    dotColor: "bg-cyan-400",
+    name: "Bachelor of Arts in English",
+    sub: "Don Bosco College · 2019",
   },
 ];
 

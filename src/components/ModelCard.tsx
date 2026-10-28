@@ -20,13 +20,13 @@ export const REPO_URL =
   "https://github.com/vjkarthik98/MULTIMODAL-AGENTIC-RAG-INTEGRATED-KNOWLEDGE-AI-ASSISTANT";
 
 const modelDetails = [
-  { label: "Version", value: "v1.0.2 · released 12 Sep 2026" },
+  { label: "Version", value: "v1.0.4 · released 6 Oct 2026 · in production 27 Oct 2026" },
   { label: "System", value: "Retrieval-augmented generation, agentic multi-modal, finance-domain — a compound system, not one trained model" },
   { label: "Core LLM", value: "Qwen2.5-14B-Instruct (GGUF, Q4_K_M quantized) via llama.cpp" },
-  { label: "Models", value: "18 open-weight checkpoints · ~42GB on disk · 0 fine-tuned — each pinned to a commit hash, SHA-256 verified on every run" },
+  { label: "Models", value: "19 open-weight checkpoints · ~43GB on disk · 0 fine-tuned — 16 pinned to a commit hash, all 19 SHA-256 verified on every run" },
   { label: "Retrieval", value: "BGE embeddings + BGE cross-encoder reranker + Qdrant hybrid search (BM25 + dense) + MMR" },
   { label: "License", value: "MIT — fully open-weights stack, no proprietary API dependency" },
-  { label: "Deployment", value: "Self-hosted on AWS (NVIDIA L40S 48GB GPU) · Lambda wake gateway, scale-to-zero · Terraform · Docker" },
+  { label: "Deployment", value: "Self-hosted on AWS (NVIDIA L40S GPU, 46GB VRAM) · Lambda wake gateway, scale-to-zero · Terraform · Docker" },
 ];
 
 const modalities = [
@@ -50,12 +50,13 @@ const sampleDatasets = [
 ];
 
 const limitations = [
-  "Built and evaluated specifically for finance-document Q&A — not a general-purpose open-domain chatbot.",
-  "Retrieval quality is currently under active investigation on one internal benchmark; not yet where it needs to be, and being worked on before the next release. Full detail in the System Card.",
+  "Built and evaluated specifically for finance-document Q&A in English — not financial advice, and not a general-purpose chatbot.",
+  "Only retrieval quality is an automatic release check today. Hallucination and finance-figure checks are set up but not yet enforced, and the latest readings on both are weaker than their targets. Full detail in the System Card.",
+  "Answers are not instant: the median is about 12.6 seconds, because each answer is checked before it is shown. After a long idle period, waking the server takes about 7 minutes.",
   "A rare, root-caused hallucination on dense audio transcripts is still open — the model can occasionally mix up two similar numbers from the same document.",
-  "Audio and video answer quality currently trails text, PDF, and spreadsheet inputs, and is the active focus of the next hardening pass.",
+  "Audio and video answer quality currently trails text, PDF, and spreadsheet inputs. The query router picked the right path for 15 of 20 test questions.",
   "Executes one tool call per query (classify → route → execute) — a bounded action, not an open-ended autonomous agent.",
-  "Runs as a single-region demo deployment with no horizontal scaling or failover, a deliberate cost tradeoff (~100x cheaper) for a portfolio project rather than production-scale infrastructure.",
+  "Runs as a single-instance demo deployment with no horizontal scaling or failover, and uploaded files have no second copy — a deliberate cost tradeoff (~100x cheaper) for a portfolio project rather than production-scale infrastructure.",
 ];
 
 const ethics = [
@@ -87,7 +88,7 @@ export default function ModelCard() {
             </p>
             <span className="inline-flex items-center gap-1 text-xs font-mono text-indigo-400 group-hover:text-cyan-400 transition-colors">
               <FileText size={11} className="shrink-0" />
-              System Card v1.0.2 (PDF)
+              System Card v1.0.4 (PDF)
               <ExternalLink size={9} className="shrink-0" />
             </span>
           </div>

@@ -98,7 +98,7 @@ const skillCategories = [
     category: "Languages & Tools",
     color: "border-violet-500/40 bg-violet-500/5",
     accent: "text-violet-400",
-    skills: ["Python", "SQL", "Git", "YAML", "System Design", "API Design"],
+    skills: ["Python", "Git", "YAML", "System Design", "API Design"],
   },
 ];
 

@@ -15,30 +15,26 @@ import {
   Package,
   Cloud,
   Lock,
-  GitCommitHorizontal,
   Scale,
   FileCode,
   ExternalLink,
-  KeyRound,
 } from "lucide-react";
 import ModelCard, { REPO_URL } from "./ModelCard";
+import MeasuredResults from "./MeasuredResults";
 
 const LIVE_DEMO_URL = "https://launch.vk-ai.online";
-const DEMO_EMAIL = "magikaiassistant@gmail.com";
-const DEMO_PASSWORD = "Demo@2026";
 
 const tagline =
-  "A fully open-source, self-hosted agentic RAG system spanning 7 data modalities for finance-domain Q&A — every model runs on open weights (no proprietary API dependency), deployed on an AWS GPU with enforced tenant isolation, guardrails, and a CI-gated eval harness.";
+  "A fully open-source, self-hosted agentic RAG system spanning 7 data modalities for finance-domain Q&A — every model runs on open weights (no proprietary API dependency), deployed on an AWS GPU with enforced tenant isolation, guardrails, and a CI-gated retrieval evaluation.";
 
 const featureBadges = [
-  { icon: Package, text: "18 Open-Weight Models" },
+  { icon: Package, text: "19 Open-Weight Models" },
   { icon: Cloud, text: "Self-Hosted on AWS · L40S GPU" },
   { icon: Lock, text: "No Proprietary API Dependency" },
-  { icon: BarChart3, text: "CI-Gated Evaluations" },
+  { icon: BarChart3, text: "CI-Gated Retrieval Quality" },
 ];
 
 const repoSignals = [
-  { icon: GitCommitHorizontal, text: "43 tagged releases" },
   { icon: Scale, text: "MIT licensed" },
   { icon: FileCode, text: "9 GitHub Actions workflows" },
 ];
@@ -62,13 +58,13 @@ const techStack = [
 const highlights = [
   "Built a multimodal assistant that answers questions across 7 data types — text, PDF, Word, Excel, images, audio, and video — each handled by its own isolated pipeline, so a problem in one can't break the others.",
   "Built an intelligent query router that automatically picks the right way to answer each question — searching internal documents, searching the web, or a blend of both — rather than relying on one fixed approach.",
-  "Combined keyword and semantic search with a re-ranking step to surface the most relevant results, tuned for fast, sub-second responses.",
+  "Combined keyword and semantic search with a re-ranking step to surface the most relevant results — in testing, it found 93% of the facts needed to answer correctly.",
   "Secured the system for multiple users with proper account authentication (including Google sign-in and multi-factor authentication) and strict data isolation between accounts.",
-  "Built a dedicated safety layer that screens every request for prompt injection, jailbreak attempts, and personal data exposure, tested against a large simulated-attack suite.",
+  "Built a dedicated safety layer that screens every request for prompt injection, jailbreak attempts, and personal data exposure — it blocked all 84 attack prompts in a 109-prompt red-team test.",
   "Added full production observability — live dashboards, distributed tracing, and centralized logs — so any request can be traced end-to-end.",
-  "Built an automated testing and evaluation pipeline that blocks any code change from shipping if it makes accuracy or safety worse. Full methodology and results are in the linked System Card.",
-  "Runs 18 open-weight AI models entirely on self-hosted infrastructure, with no dependency on any third-party AI API, and automatic integrity checks that once caught a corrupted model file before it reached production.",
-  "Deployed on AWS with automated CI/CD and a cost-saving design that shuts the GPU down when idle, cutting hosting costs roughly 100x (from ~$1,340/month to ~$12/month) versus running it continuously.",
+  "Built an automated release pipeline that tests every new version on a staging server first and blocks it from going live if retrieval quality drops. Other checks, such as hallucination and figure accuracy, are measured but not yet enforced — see the System Card.",
+  "Runs 19 open-weight AI models entirely on self-hosted infrastructure, with no dependency on any third-party AI API, and automatic integrity checks on every model file that once exposed a model silently missing from the setup.",
+  "Deployed on AWS with automated CI/CD and a cost-saving design that shuts the GPU down when idle, cutting hosting costs roughly 100x (from ~$1,340/month always-on to ~$12/month plus hourly GPU use).",
 ];
 
 const DEMO_VIDEO_URL =
@@ -194,7 +190,7 @@ export default function Projects() {
                 <div className="flex flex-wrap items-center gap-x-2 gap-y-1 mb-3">
                   <span className="flex items-center gap-1.5 text-xs font-mono text-[var(--text-secondary)] whitespace-nowrap">
                     <Calendar size={12} />
-                    March 2026 – August 2026
+                    March 2026 – October 2026
                   </span>
                   <span className="w-1 h-1 rounded-full bg-[var(--text-secondary)] shrink-0" />
                   <span className="flex items-center gap-1.5 text-xs font-mono text-emerald-400 whitespace-nowrap">
@@ -247,21 +243,6 @@ export default function Projects() {
                   <ExternalLink size={15} />
                   Live Demo
                 </motion.a>
-                <div className="text-right rounded-lg border border-[var(--border-color)] bg-[var(--bg-primary)] px-3 py-2">
-                  <p className="flex items-center justify-end gap-1.5 text-[10px] font-mono font-semibold uppercase tracking-wider text-indigo-400 mb-1">
-                    <KeyRound size={11} />
-                    Demo Login
-                  </p>
-                  <p className="text-[11px] font-mono text-[var(--text-primary)] whitespace-nowrap">
-                    {DEMO_EMAIL}
-                  </p>
-                  <p className="text-[11px] font-mono text-[var(--text-primary)] whitespace-nowrap">
-                    {DEMO_PASSWORD}
-                  </p>
-                  <p className="text-[10px] text-[var(--text-secondary)] opacity-75 mt-1 whitespace-nowrap">
-                    Pre-loaded with sample files &amp; chat history
-                  </p>
-                </div>
               </div>
             </div>
 
@@ -290,6 +271,8 @@ export default function Projects() {
               ))}
             </div>
           </div>
+
+          <MeasuredResults />
 
           {/* Main content — Video + Model Card side by side on lg */}
           <div className="grid grid-cols-1 lg:grid-cols-2 lg:items-start gap-0 divide-y lg:divide-y-0 lg:divide-x divide-[var(--border-color)]">

@@ -16,7 +16,7 @@ const siteUrl =
 
 const title = "Vijaya Karthik | Generative AI Engineer";
 const description =
-  "Generative AI Engineer building multimodal agentic RAG on a fully open-weights, self-hosted stack — 7 modalities, no proprietary API dependency, CI-gated evaluations.";
+  "Generative AI Engineer building multimodal agentic RAG on a fully open-weights, self-hosted stack — 7 modalities, no proprietary API dependency, CI-gated retrieval evaluation.";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
